@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eywallah - Minimal. Modern. Kullanışlı.</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Firebase SDKs -->
@@ -25,130 +23,58 @@
                     },
                     colors: {
                         primary: {
-                            50: '#f8fafc',
-                            100: '#f1f5f9',
-                            200: '#e2e8f0',
-                            300: '#cbd5e1',
-                            400: '#94a3b8',
-                            500: '#64748b',
-                            600: '#475569',
-                            700: '#334155',
-                            800: '#1e293b',
-                            900: '#0f172a',
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
                         }
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'glow': 'glow 2s ease-in-out infinite alternate',
                     }
                 }
             },
             darkMode: 'class',
         }
     </script>
-    <style>
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        .glass-effect {
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-        
-        .parallax-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-        }
-        
-        .dark .parallax-bg {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-        }
-        
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        @keyframes glow {
-            from { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
-            to { box-shadow: 0 0 30px rgba(102, 126, 234, 0.8); }
-        }
-        
-        .hero-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .dark .hero-text {
-            background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .card-hover {
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-        }
-        
-        .dark .card-hover:hover {
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-        }
-        
-        .navbar-scroll {
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        .dark .btn-primary:hover {
-            box-shadow: 0 10px 20px rgba(168, 85, 247, 0.4);
-        }
-    </style>
 </head>
-<body class="font-inter bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-all duration-500 overflow-x-hidden">
+<body class="font-inter bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
     
     <!-- Header / Navbar -->
-    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <header class="fixed top-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 z-50 transition-colors duration-300">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex items-center justify-between">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <h1 class="text-2xl font-bold hero-text cursor-pointer" id="logo">eywallah</h1>
+                    <h1 class="text-2xl font-bold text-primary-600 dark:text-primary-400">eywallah</h1>
                 </div>
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-2">
-                    <a href="#home" class="nav-link px-6 py-3 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">Home</a>
-                    <a href="#about" class="nav-link px-6 py-3 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">About</a>
-                    <a href="#products" class="nav-link px-6 py-3 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">Products</a>
+                    <a href="#home" class="px-4 py-2 rounded-2xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-105">Ana Sayfa</a>
+                    <a href="#about" class="px-4 py-2 rounded-2xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-105">Hakkımızda</a>
+                    <a href="#products" class="px-4 py-2 rounded-2xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-105">Uygulamalarımız</a>
                     
-                    <!-- Theme Toggle -->
-                    <button id="theme-toggle" class="p-3 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-110">
+                    <!-- Firebase Auth Butonları -->
+                    <div id="auth-buttons" class="flex items-center space-x-2">
+                        <button id="login-btn" onclick="openLoginModal()" class="bg-primary-600 text-white px-4 py-2 rounded-2xl hover:bg-primary-700 transition-all duration-200 hover:scale-105">
+                            Giriş Yap
+                        </button>
+                        <button id="register-btn" onclick="openRegisterModal()" class="bg-green-600 text-white px-4 py-2 rounded-2xl hover:bg-green-700 transition-all duration-200 hover:scale-105">
+                            Kayıt Ol
+                        </button>
+                    </div>
+                    
+                    <!-- Kullanıcı Bilgisi (giriş yaptıktan sonra gösterilecek) -->
+                    <div id="user-info" class="hidden flex items-center space-x-2">
+                        <span id="user-name" class="text-sm text-gray-700 dark:text-gray-300"></span>
+                        <button id="logout-btn" onclick="logoutUser()" class="bg-red-600 text-white px-4 py-2 rounded-2xl hover:bg-red-700 transition-all duration-200 hover:scale-105">
+                            Çıkış Yap
+                        </button>
+                    </div>
+                    
+                    <!-- Tema Değiştirme Butonu -->
+                    <button id="theme-toggle" class="p-2 rounded-2xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-110">
                         <svg id="sun-icon" class="w-5 h-5 text-yellow-500 hidden" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
                         </svg>
@@ -160,15 +86,33 @@
 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center space-x-2">
-                    <button id="theme-toggle-mobile" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300">
+                    <!-- Mobile Auth Butonları -->
+                    <div id="auth-buttons-mobile" class="flex items-center space-x-1">
+                        <button id="login-btn-mobile" onclick="openLoginModal()" class="bg-primary-600 text-white px-3 py-1 rounded-2xl hover:bg-primary-700 transition-all duration-200 text-sm">
+                            Giriş
+                        </button>
+                        <button id="register-btn-mobile" onclick="openRegisterModal()" class="bg-green-600 text-white px-3 py-1 rounded-2xl hover:bg-green-700 transition-all duration-200 text-sm">
+                            Kayıt
+                        </button>
+                    </div>
+                    
+                    <!-- Mobile Kullanıcı Info -->
+                    <div id="user-info-mobile" class="hidden">
+                        <button id="logout-btn-mobile" onclick="logoutUser()" class="bg-red-600 text-white px-3 py-1 rounded-2xl hover:bg-red-700 transition-all duration-200 text-sm">
+                            Çıkış
+                        </button>
+                    </div>
+                    
+                    <!-- Mobile Tema Butonu -->
+                    <button id="theme-toggle-mobile" class="p-2 rounded-2xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200">
                         <svg id="sun-icon-mobile" class="w-5 h-5 text-yellow-500 hidden" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
                         </svg>
                         <svg id="moon-icon-mobile" class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            <path d="M17.293 13.293A8 8 0 716.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
                         </svg>
                     </button>
-                    <button id="mobile-menu-button" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300">
+                    <button id="mobile-menu-button" class="p-2 rounded-2xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
@@ -179,79 +123,119 @@
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
                 <div class="flex flex-col space-y-2">
-                    <a href="#home" class="px-4 py-3 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">Home</a>
-                    <a href="#about" class="px-4 py-3 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">About</a>
-                    <a href="#products" class="px-4 py-3 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">Products</a>
+                    <a href="#home" class="px-4 py-3 rounded-2xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200">Ana Sayfa</a>
+                    <a href="#about" class="px-4 py-3 rounded-2xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200">Hakkımızda</a>
+                    <a href="#products" class="px-4 py-3 rounded-2xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200">Uygulamalarımız</a>
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- FirebaseUI container -->
-    <div id="firebaseui-auth-container" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] hidden items-center justify-center">
+    <!-- Firebase Giriş Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] hidden items-center justify-center">
         <div class="bg-white dark:bg-gray-900 rounded-2xl p-8 m-4 max-w-md w-full">
-            <div class="flex justify-between items-center mb-4">
+            <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Giriş Yap</h2>
-                <button onclick="closeFirebaseUI()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                <button onclick="closeModal('login-modal')" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
-            <div id="firebaseui-container"></div>
+            
+            <!-- Giriş Formu -->
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">E-posta</label>
+                    <input type="email" id="login-email" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-2xl focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Şifre</label>
+                    <input type="password" id="login-password" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-2xl focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                </div>
+                <button type="submit" class="w-full bg-primary-600 text-white py-3 rounded-2xl hover:bg-primary-700 transition-all duration-200 font-medium">
+                    Giriş Yap
+                </button>
+            </form>
+            
+            <!-- Hata Mesajı -->
+            <div id="login-error" class="hidden mt-4 p-3 bg-red-100 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-2xl text-red-700 dark:text-red-300 text-sm"></div>
+        </div>
+    </div>
+
+    <!-- Firebase Kayıt Modal -->
+    <div id="register-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] hidden items-center justify-center">
+        <div class="bg-white dark:bg-gray-900 rounded-2xl p-8 m-4 max-w-md w-full">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Kayıt Ol</h2>
+                <button onclick="closeModal('register-modal')" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Kayıt Formu -->
+            <form id="register-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ad Soyad</label>
+                    <input type="text" id="register-name" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">E-posta</label>
+                    <input type="email" id="register-email" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Şifre (en az 6 karakter)</label>
+                    <input type="password" id="register-password" required minlength="6" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                </div>
+                <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-2xl hover:bg-green-700 transition-all duration-200 font-medium">
+                    Kayıt Ol
+                </button>
+            </form>
+            
+            <!-- Hata Mesajı -->
+            <div id="register-error" class="hidden mt-4 p-3 bg-red-100 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-2xl text-red-700 dark:text-red-300 text-sm"></div>
         </div>
     </div>
 
     <main>
         <!-- Hero Section -->
-        <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden">
-            <!-- Parallax Background -->
-            <div class="parallax-bg absolute inset-0 z-0"></div>
-            <div class="absolute inset-0 bg-white/10 dark:bg-black/20 z-10"></div>
-            
-            <!-- Floating Elements -->
-            <div class="absolute top-1/4 left-1/4 w-32 h-32 bg-white/10 rounded-full blur-xl animate-float z-10"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-48 h-48 bg-white/5 rounded-full blur-2xl animate-float z-10" style="animation-delay: -3s;"></div>
-            
-            <div class="text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 z-20 relative">
-                <h2 id="hero-title" class="text-6xl sm:text-7xl lg:text-8xl font-bold mb-6 leading-tight hero-text">
-                    Eywallah
+        <section id="home" class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-20">
+            <div class="text-center max-w-4xl mx-auto opacity-0 animate-fade-in">
+                <h2 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                    <span class="text-primary-600 dark:text-primary-400">eywallah</span>
                 </h2>
-                <p id="hero-subtitle" class="text-xl sm:text-2xl lg:text-3xl text-white/90 mb-12 font-light">
-                    Minimal. Modern. Reliable.
+                <p class="text-xl sm:text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 mb-12 font-light">
+                    Minimal. Modern. Kullanışlı.
                 </p>
-                <button id="hero-cta" class="btn-primary text-white font-medium px-8 py-4 rounded-full hover:scale-105 transition-all duration-300 animate-glow">
-                    Explore Now
-                </button>
+                <a href="#about" class="inline-block px-8 py-4 bg-primary-600 hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600 text-white font-medium rounded-2xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
+                    Şimdi Keşfet
+                </a>
             </div>
         </section>
 
         <!-- About Section -->
-        <section id="about" class="py-32 px-4 sm:px-6 lg:px-8 relative">
+        <section id="about" class="py-20 px-4 sm:px-6 lg:px-8">
             <div class="container mx-auto max-w-6xl">
-                <div class="grid md:grid-cols-2 gap-16 items-center">
-                    <div class="about-text">
-                        <h3 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-8">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="opacity-0 animate-fade-in-up">
+                        <h3 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-6">
                             Hayatı Kolaylaştırıyoruz
                         </h3>
-                        <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                            Eywallah olarak, kar amacı gütmeden insanların günlük yaşamını kolaylaştıran web uygulamaları geliştiriyoruz. Minimal tasarım anlayışımız ve modern teknolojilerle, herkes için erişilebilir çözümler sunuyoruz.
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                            eywallah olarak, kar amacı gütmeden insanların günlük yaşamını kolaylaştıran web uygulamaları geliştiriyoruz. Minimal tasarım anlayışımız ve modern teknolojilerle, herkes için erişilebilir çözümler sunuyoruz.
                         </p>
                         <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                             Amacımız, teknolojinin gücünü toplumsal faydaya dönüştürmek ve dijital dünyada daha iyi deneyimler yaratmaktır.
                         </p>
                     </div>
-                    <div class="about-visual flex justify-center">
-                        <div class="relative">
-                            <div class="w-80 h-80 bg-gradient-to-br from-purple-400 via-blue-500 to-teal-400 rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-105 transition-all duration-500">
-                                <svg class="w-40 h-40 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 2L2 7V10C2 16 12 22 12 22S22 16 22 10V7L12 2Z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                            </div>
-                            <!-- Floating particles -->
-                            <div class="absolute -top-4 -right-4 w-8 h-8 bg-yellow-400 rounded-full animate-bounce"></div>
-                            <div class="absolute -bottom-4 -left-4 w-6 h-6 bg-pink-400 rounded-full animate-pulse"></div>
+                    <div class="flex justify-center opacity-0 animate-fade-in-up">
+                        <div class="w-64 h-64 bg-gradient-to-br from-primary-200 to-primary-400 dark:from-primary-600 dark:to-primary-800 rounded-2xl flex items-center justify-center shadow-2xl">
+                            <svg class="w-32 h-32 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2L2 7V10C2 16 12 22 12 22S22 16 22 10V7L12 2Z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
                         </div>
                     </div>
                 </div>
@@ -259,80 +243,71 @@
         </section>
 
         <!-- Products Section -->
-        <section id="products" class="py-32 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800/50 transition-all duration-500">
+        <section id="products" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
             <div class="container mx-auto max-w-6xl">
-                <div class="text-center mb-20">
-                    <h3 class="products-title text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                        Projelerimiz
+                <div class="text-center mb-16 opacity-0 animate-fade-in-up">
+                    <h3 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                        Web Uygulamalarımız
                     </h3>
-                    <p class="products-subtitle text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                         Hayatı kolaylaştıran, herkes için erişilebilir web uygulamalarımızı keşfedin.
                     </p>
                 </div>
 
-                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Product Card 1 -->
-                    <div class="product-card bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-xl card-hover relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full -translate-y-16 translate-x-16"></div>
-                        <div class="relative z-10">
-                            <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-2xl flex items-center justify-center mb-6">
-                                <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                            </div>
-                            <h4 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-                                Görev Yöneticisi
-                            </h4>
-                            <p class="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                                Günlük görevlerinizi düzenleyin, önceliklerinizi belirleyin ve verimliliğinizi artırın.
-                            </p>
-                            <button class="w-full px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                                Learn More
-                            </button>
+                    <div class="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up">
+                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-2xl flex items-center justify-center mb-6">
+                            <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
                         </div>
+                        <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                            Görev Yöneticisi
+                        </h4>
+                        <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                            Günlük görevlerinizi düzenleyin, önceliklerinizi belirleyin ve verimliliğinizi artırın.
+                        </p>
+                        <button onclick="window.open('https://eywallahorg.github.io/', '_blank')" class="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-2xl transition-all duration-200 hover:scale-105">
+                            Detaylı İncele
+                        </button>
                     </div>
 
                     <!-- Product Card 2 -->
-                    <div class="product-card bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-xl card-hover relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-400/20 to-emerald-400/20 rounded-full -translate-y-16 translate-x-16"></div>
-                        <div class="relative z-10">
-                            <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-2xl flex items-center justify-center mb-6">
-                                <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                                </svg>
-                            </div>
-                            <h4 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-                                Bütçe Takipçisi
-                            </h4>
-                            <p class="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                                Gelir ve giderlerinizi takip edin, tasarruf hedeflerinize ulaşın ve finansal kontrolü elinize alın.
-                            </p>
-                            <button class="w-full px-6 py-4 bg-green-600 hover:bg-green-700 text-white font-medium rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                                Learn More
-                            </button>
+                    <div class="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up">
+                        <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-2xl flex items-center justify-center mb-6">
+                            <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
                         </div>
+                        <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                            Bütçe Takipçisi
+                        </h4>
+                        <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                            Gelir ve giderlerinizi takip edin, tasarruf hedeflerinize ulaşın ve finansal kontrolü elinize alın.
+                        </p>
+                        <button onclick="window.open('https://eywallahorg.github.io/', '_blank')" class="w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-2xl transition-all duration-200 hover:scale-105">
+                            Detaylı İncele
+                        </button>
                     </div>
 
                     <!-- Product Card 3 -->
-                    <div class="product-card bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-xl card-hover relative overflow-hidden sm:col-span-2 lg:col-span-1">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full -translate-y-16 translate-x-16"></div>
-                        <div class="relative z-10">
-                            <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-2xl flex items-center justify-center mb-6">
-                                <svg class="w-8 h-8 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 14l9-5-9-5-9 5 9 5z"/>
-                                    <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
-                                </svg>
-                            </div>
-                            <h4 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-                                Öğrenme Platformu
-                            </h4>
-                            <p class="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                                Ücretsiz eğitim içerikleri, interaktif dersler ve kişiselleştirilmiş öğrenme deneyimi.
-                            </p>
-                            <button class="w-full px-6 py-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                                Learn More
-                            </button>
+                    <div class="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up sm:col-span-2 lg:col-span-1">
+                        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-2xl flex items-center justify-center mb-6">
+                            <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 14l9-5-9-5-9 5 9 5z"/>
+                                <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+                            </svg>
                         </div>
+                        <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                            Öğrenme Platformu
+                        </h4>
+                        <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                            Ücretsiz eğitim içerikleri, interaktif dersler ve kişiselleştirilmiş öğrenme deneyimi.
+                        </p>
+                        <button onclick="window.open('https://eywallahorg.github.io/', '_blank')" class="w-full px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-2xl transition-all duration-200 hover:scale-105">
+                            Detaylı İncele
+                        </button>
                     </div>
                 </div>
             </div>
@@ -340,162 +315,379 @@
     </main>
 
     <!-- Footer -->
-    <footer class="py-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900 transition-all duration-500">
+    <footer class="py-12 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div class="container mx-auto max-w-6xl text-center">
-            <p class="text-gray-600 dark:text-gray-400">
+            <p class="text-gray-600 dark:text-gray-400 text-sm">
                 © 2025 eywallah
             </p>
         </div>
     </footer>
 
     <script>
-        // GSAP Animations
-        gsap.registerPlugin(ScrollTrigger);
+        // Firebase Configuration - Eywallah projesinin gerçek ayarları
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9ESPDs9xolijZ1DOVc4WmoiooGvtFQf4",
+            authDomain: "eywallahorg.firebaseapp.com",
+            projectId: "eywallahorg",
+            storageBucket: "eywallahorg.firebasestorage.app",
+            messagingSenderId: "1040767491342",
+            appId: "1:1040767491342:web:facfcc7a3544c6e9310b5f",
+            measurementId: "G-DDRMQZRG2X"
+        };
 
-        // Theme toggle functionality
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
-        const sunIcons = document.querySelectorAll('#sun-icon, #sun-icon-mobile');
-        const moonIcons = document.querySelectorAll('#moon-icon, #moon-icon-mobile');
+        // Firebase Başlatma
+        const app = firebase.initializeApp(firebaseConfig);
+        const analytics = firebase.analytics();
+        const auth = firebase.auth();
 
-        // Check for saved theme preference or default to light mode
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        
-        if (currentTheme === 'dark') {
-            document.documentElement.classList.add('dark');
-            sunIcons.forEach(icon => icon.classList.remove('hidden'));
-            moonIcons.forEach(icon => icon.classList.add('hidden'));
-        }
+        // DOM Yüklendikten Sonra Çalışacak Fonksiyonlar
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme(); // Tema ayarlarını başlat
+            setupEventListeners(); // Event listener'ları kuralım
+            checkAuthState(); // Kullanıcı giriş durumunu kontrol et
+        });
 
-        function toggleTheme() {
-            // Animate theme transition
-            gsap.to('body', {
-                duration: 0.3,
-                ease: "power2.inOut"
-            });
+        // Tema Yönetimi - Dark/Light Mode Toggle
+        function initializeTheme() {
+            // localStorage'dan kayıtlı tema tercihini al, yoksa 'light' kullan
+            const savedTheme = localStorage.getItem('theme') || 'light';
             
-            document.documentElement.classList.toggle('dark');
-            
-            if (document.documentElement.classList.contains('dark')) {
-                localStorage.setItem('theme', 'dark');
-                sunIcons.forEach(icon => icon.classList.remove('hidden'));
-                moonIcons.forEach(icon => icon.classList.add('hidden'));
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                // Dark modda güneş ikonunu göster
+                document.querySelectorAll('#sun-icon, #sun-icon-mobile').forEach(icon => {
+                    icon.classList.remove('hidden');
+                });
+                document.querySelectorAll('#moon-icon, #moon-icon-mobile').forEach(icon => {
+                    icon.classList.add('hidden');
+                });
             } else {
-                localStorage.setItem('theme', 'light');
-                sunIcons.forEach(icon => icon.classList.add('hidden'));
-                moonIcons.forEach(icon => icon.classList.remove('hidden'));
+                document.documentElement.classList.remove('dark');
+                // Light modda ay ikonunu göster
+                document.querySelectorAll('#sun-icon, #sun-icon-mobile').forEach(icon => {
+                    icon.classList.add('hidden');
+                });
+                document.querySelectorAll('#moon-icon, #moon-icon-mobile').forEach(icon => {
+                    icon.classList.remove('hidden');
+                });
             }
         }
 
-        themeToggle.addEventListener('click', toggleTheme);
-        themeToggleMobile.addEventListener('click', toggleTheme);
+        // Tema Değiştirme Fonksiyonu
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            if (isDark) {
+                // Dark'tan Light'a geç
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                // İkonları güncelle
+                document.querySelectorAll('#sun-icon, #sun-icon-mobile').forEach(icon => {
+                    icon.classList.add('hidden');
+                });
+                document.querySelectorAll('#moon-icon, #moon-icon-mobile').forEach(icon => {
+                    icon.classList.remove('hidden');
+                });
+            } else {
+                // Light'tan Dark'a geç
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                // İkonları güncelle
+                document.querySelectorAll('#sun-icon, #sun-icon-mobile').forEach(icon => {
+                    icon.classList.remove('hidden');
+                });
+                document.querySelectorAll('#moon-icon, #moon-icon-mobile').forEach(icon => {
+                    icon.classList.add('hidden');
+                });
+            }
+        }
 
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+        // Event Listener'ları Kurulum
+        function setupEventListeners() {
+            // Tema değiştirme butonları
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+            document.getElementById('theme-toggle-mobile').addEventListener('click', toggleTheme);
 
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                    // Mobile menüyü kapat
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Firebase Auth Form Event Listeners
+            setupAuthForms();
+        }
+
+        // Firebase Auth Formlarını Kurulum
+        function setupAuthForms() {
+            // Giriş formu
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                loginUser();
+            });
+
+            // Kayıt formu
+            document.getElementById('register-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                registerUser();
+            });
+        }
+
+        // Firebase Kullanıcı Durumu Kontrolü
+        function checkAuthState() {
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    // Kullanıcı giriş yapmış
+                    console.log('Kullanıcı giriş yaptı:', user.displayName || user.email);
+                    showUserInfo(user);
+                } else {
+                    // Kullanıcı giriş yapmamış
+                    console.log('Kullanıcı giriş yapmamış');
+                    showAuthButtons();
+                }
+            });
+        }
+
+        // Modal Açma Fonksiyonları
+        function openLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
+            document.getElementById('login-modal').classList.add('flex');
+            clearForm('login-form');
+            hideError('login-error');
+        }
+
+        function openRegisterModal() {
+            document.getElementById('register-modal').classList.remove('hidden');
+            document.getElementById('register-modal').classList.add('flex');
+            clearForm('register-form');
+            hideError('register-error');
+        }
+
+        // Modal Kapatma Fonksiyonu
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.getElementById(modalId).classList.remove('flex');
+        }
+
+        // Form Temizleme Fonksiyonu
+        function clearForm(formId) {
+            document.getElementById(formId).reset();
+        }
+
+        // Hata Mesajı Gösterme
+        function showError(errorId, message) {
+            const errorDiv = document.getElementById(errorId);
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+        }
+
+        // Hata Mesajı Gizleme
+        function hideError(errorId) {
+            document.getElementById(errorId).classList.add('hidden');
+        }
+
+        // Firebase Giriş Fonksiyonu
+        async function loginUser() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                // Firebase ile giriş yap
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                console.log('Giriş başarılı:', userCredential.user.email);
+                
+                // Modal'ı kapat
+                closeModal('login-modal');
+                
+                // Başarı mesajı (isteğe bağlı)
+                alert('Giriş başarılı! Hoş geldiniz.');
+                
+            } catch (error) {
+                console.error('Giriş hatası:', error);
+                
+                // Türkçe hata mesajları
+                let errorMessage = 'Giriş sırasında bir hata oluştu.';
+                
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMessage = 'Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı.';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMessage = 'Yanlış şifre girdiniz.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Geçersiz e-posta adresi.';
+                        break;
+                    case 'auth/user-disabled':
+                        errorMessage = 'Bu hesap devre dışı bırakılmış.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'Çok fazla başarısız deneme. Lütfen daha sonra tekrar deneyin.';
+                        break;
+                }
+                
+                showError('login-error', errorMessage);
+            }
+        }
+
+        // Firebase Kayıt Fonksiyonu
+        async function registerUser() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+
+            try {
+                // Firebase ile kullanıcı oluştur
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                
+                // Kullanıcının display name'ini güncelle
+                await userCredential.user.updateProfile({
+                    displayName: name
+                });
+                
+                console.log('Kayıt başarılı:', userCredential.user.email);
+                
+                // Modal'ı kapat
+                closeModal('register-modal');
+                
+                // Başarı mesajı
+                alert('Kayıt başarılı! Hoş geldiniz.');
+                
+            } catch (error) {
+                console.error('Kayıt hatası:', error);
+                
+                // Türkçe hata mesajları
+                let errorMessage = 'Kayıt sırasında bir hata oluştu.';
+                
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = 'Bu e-posta adresi zaten kullanımda.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Geçersiz e-posta adresi.';
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = 'Şifre çok zayıf. En az 6 karakter olmalı.';
+                        break;
+                }
+                
+                showError('register-error', errorMessage);
+            }
+        }
+
+        // Çıkış Fonksiyonu
+        async function logoutUser() {
+            try {
+                await auth.signOut();
+                console.log('Çıkış yapıldı');
+                alert('Başarıyla çıkış yaptınız.');
+            } catch (error) {
+                console.error('Çıkış hatası:', error);
+                alert('Çıkış sırasında bir hata oluştu.');
+            }
+        }
+
+        // Kullanıcı Bilgilerini Göster
+        function showUserInfo(user) {
+            const userName = user.displayName || user.email;
+            
+            // Desktop
+            document.getElementById('auth-buttons').classList.add('hidden');
+            document.getElementById('user-info').classList.remove('hidden');
+            document.getElementById('user-name').textContent = userName;
+            
+            // Mobile
+            document.getElementById('auth-buttons-mobile').classList.add('hidden');
+            document.getElementById('user-info-mobile').classList.remove('hidden');
+        }
+
+        // Auth Butonlarını Göster
+        function showAuthButtons() {
+            // Desktop
+            document.getElementById('auth-buttons').classList.remove('hidden');
+            document.getElementById('user-info').classList.add('hidden');
+            
+            // Mobile
+            document.getElementById('auth-buttons-mobile').classList.remove('hidden');
+            document.getElementById('user-info-mobile').classList.add('hidden');
+        }
+
+        // Scroll Animasyonları
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Animasyon stillerini ekle ve elementleri gözlemle
+        const animateElements = document.querySelectorAll('.animate-fade-in, .animate-fade-in-up');
+        animateElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(el);
         });
 
-        // Navbar scroll effect
-        ScrollTrigger.create({
-            start: "top -80",
-            end: 99999,
-            toggleClass: {className: "glass-effect bg-white/80 dark:bg-gray-900/80 backdrop-blur-md", targets: "#navbar"}
-        });
-
-        // Hero animations
-        gsap.timeline()
-            .fromTo("#hero-title", 
-                { opacity: 0, y: 100, scale: 0.8 }, 
-                { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: "power3.out" }
-            )
-            .fromTo("#hero-subtitle", 
-                { opacity: 0, y: 50 }, 
-                { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, "-=0.6"
-            )
-            .fromTo("#hero-cta", 
-                { opacity: 0, y: 30, scale: 0.9 }, 
-                { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.7)" }, "-=0.4"
-            );
-
-        // Parallax background
-        gsap.to(".parallax-bg", {
-            yPercent: -50,
-            ease: "none",
-            scrollTrigger: {
-                trigger: "#home",
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
+        // Hero bölümü için başlangıç animasyonu
+        setTimeout(() => {
+            const hero = document.querySelector('#home .animate-fade-in');
+            if (hero) {
+                hero.style.opacity = '1';
+                hero.style.transform = 'translateY(0)';
             }
-        });
+        }, 300);
+    </script>
 
-        // About section animations
-        gsap.fromTo(".about-text", 
-            { opacity: 0, x: -100 },
-            {
-                opacity: 1,
-                x: 0,
-                duration: 1,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: "#about",
-                    start: "top 80%",
-                    end: "bottom 20%",
-                    toggleActions: "play none none none"
-                }
+    <style>
+        /* Erişilebilirlik için animasyonları devre dışı bırakma */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
-        );
+        }
 
-        gsap.fromTo(".about-visual", 
-            { opacity: 0, x: 100, scale: 0.8 },
-            {
-                opacity: 1,
-                x: 0,
-                scale: 1,
-                duration: 1,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: "#about",
-                    start: "top 80%",
-                    end: "bottom 20%",
-                    toggleActions: "play none none none"
-                }
-            }
-        );
+        /* Firebase UI özelleştirmeleri */
+        .firebaseui-container {
+            max-width: none !important;
+        }
 
-        // Products section animations
-        gsap.fromTo(".products-title", 
-            { opacity: 0, y: 50 },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: "#products",
-                    start: "top 80%",
-                    toggleActions: "play none none none"
-                }
-            }
-        );
+        .firebaseui-card-content {
+            padding: 0 !important;
+        }
 
-        gsap.fromTo(".products-subtitle", 
-            { opacity: 0, y: 30 },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                ease: "power2.out",
-                delay: 0.2,
-                scrollTrigger: {
-                    trigger: "#products",
-                    start: "top 80%",
-                    toggleActions: "play none none none"
-                }
-            }
-        );
-
-        // Product cards st
+        /* Modal backdrop için blur efekti */
+        .backdrop-blur-sm {
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+    </style>
+</body>
+</html>
