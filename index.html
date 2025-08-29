@@ -35,14 +35,14 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
         import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
-        import { getAuth, signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider, GithubAuthProvider, OAuthProvider } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+        import { getAuth, signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider, GithubAuthProvider, OAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
         
         // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyA9ESPDs9xolijZ1DOVc4WmoiooGvtFQf4",
-            authDomain: "eywallahorg.github.io",
+            authDomain: "eywallahorg.firebaseapp.com",
             projectId: "eywallahorg",
-            storageBucket: "eywallahorg.github.io",
+            storageBucket: "eywallahorg.firebasestorage.app",
             messagingSenderId: "1040767491342",
             appId: "1:1040767491342:web:facfcc7a3544c6e9310b5f",
             measurementId: "G-DDRMQZRG2X"
@@ -67,7 +67,8 @@
         window.onAuthStateChanged = onAuthStateChanged;
         window.googleProvider = googleProvider;
         window.githubProvider = githubProvider;
-        window.appleProvider = appleProvider;
+        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.signInWithEmailAndPassword = signInWithEmailAndPassword;
         
         console.log("Firebase initialized successfully!");
     </script>
@@ -270,7 +271,42 @@
                 <p class="text-gray-600 dark:text-gray-300">Hesabınıza giriş yapın veya yeni hesap oluşturun</p>
             </div>
             
-            <div class="space-y-4">
+            <div class="text-center mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Hoş Geldiniz!</h3>
+                <p class="text-gray-600 dark:text-gray-300">Hesabınıza giriş yapın veya yeni hesap oluşturun</p>
+                <div class="flex justify-center mt-4">
+                    <button id="switch-to-signup" class="px-4 py-2 text-sm text-primary-600 dark:text-primary-400 hover:underline">
+                        Hesabınız yok mu? Kayıt olun
+                    </button>
+                </div>
+            </div>
+
+            <!-- Email/Password Form -->
+            <form id="auth-form" class="space-y-4 mb-6">
+                <div>
+                    <input type="email" id="email-input" placeholder="E-posta adresiniz" 
+                           class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all duration-200">
+                </div>
+                <div>
+                    <input type="password" id="password-input" placeholder="Şifreniz" 
+                           class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all duration-200">
+                </div>
+                <button type="submit" id="auth-submit-btn" 
+                        class="w-full px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-2xl transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md">
+                    <span id="auth-submit-text">Giriş Yap</span>
+                </button>
+            </form>
+
+            <div class="relative mb-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-200 dark:border-gray-600"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-4 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">veya</span>
+                </div>
+            </div>
+            
+            <div class="space-y-3">
                 <!-- Google Login -->
                 <button id="google-login-btn" class="w-full flex items-center justify-center space-x-3 px-6 py-4 bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md">
                     <svg class="w-5 h-5" viewBox="0 0 24 24">
@@ -317,13 +353,78 @@
     </footer>
 
     <script>
+        let isSignUp = false;
+
+        // Toggle between login and signup
+        function toggleAuthMode() {
+            isSignUp = !isSignUp;
+            const submitBtn = document.getElementById('auth-submit-text');
+            const switchBtn = document.getElementById('switch-to-signup');
+            
+            if (isSignUp) {
+                submitBtn.textContent = 'Kayıt Ol';
+                switchBtn.textContent = 'Zaten hesabınız var mı? Giriş yapın';
+            } else {
+                submitBtn.textContent = 'Giriş Yap';
+                switchBtn.textContent = 'Hesabınız yok mu? Kayıt olun';
+            }
+        }
+
+        // Email/Password authentication
+        function handleEmailAuth(email, password) {
+            if (!window.auth) {
+                console.error('Firebase Auth not loaded');
+                return;
+            }
+
+            const authFunction = isSignUp ? window.createUserWithEmailAndPassword : window.signInWithEmailAndPassword;
+            const actionName = isSignUp ? 'signup' : 'signin';
+
+            authFunction(window.auth, email, password)
+                .then((result) => {
+                    console.log(`${actionName} successful`, result.user);
+                    trackEvent(`${actionName}_success`, 'email');
+                    document.getElementById('login-modal').classList.add('hidden');
+                    showUserProfile(result.user);
+                    
+                    // Clear form
+                    document.getElementById('auth-form').reset();
+                })
+                .catch((error) => {
+                    console.error(`${actionName} error:`, error);
+                    trackEvent(`${actionName}_error`, 'email');
+                    
+                    let errorMessage = 'Bir hata oluştu. Lütfen tekrar deneyin.';
+                    
+                    switch (error.code) {
+                        case 'auth/user-not-found':
+                            errorMessage = 'Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı.';
+                            break;
+                        case 'auth/wrong-password':
+                            errorMessage = 'Şifre yanlış. Lütfen tekrar deneyin.';
+                            break;
+                        case 'auth/email-already-in-use':
+                            errorMessage = 'Bu e-posta adresi zaten kullanımda.';
+                            break;
+                        case 'auth/weak-password':
+                            errorMessage = 'Şifre çok zayıf. En az 6 karakter olmalı.';
+                            break;
+                        case 'auth/invalid-email':
+                            errorMessage = 'Geçersiz e-posta adresi.';
+                            break;
+                    }
+                    
+                    alert(errorMessage);
+                });
+        }
+
         // Authentication functions
         function showUserProfile(user) {
             document.getElementById('login-btn').classList.add('hidden');
             document.getElementById('user-profile').classList.remove('hidden');
             document.getElementById('user-profile').classList.add('flex');
             
-            document.getElementById('user-avatar').src = user.photoURL || 'https://via.placeholder.com/32';
+            document.getElementById('user-avatar').src = user.photoURL || 'https://via.placeholder.com/32?text=' + (user.email?.charAt(0).toUpperCase() || 'U');
             document.getElementById('user-name').textContent = user.displayName || user.email?.split('@')[0] || 'User';
         }
 
@@ -349,7 +450,16 @@
                 .catch((error) => {
                     console.error(`${providerName} login error:`, error);
                     trackEvent('login_error', providerName);
-                    alert(`Giriş yapılırken hata oluştu: ${error.message}`);
+                    
+                    let errorMessage = `${providerName} ile giriş yapılırken hata oluştu.`;
+                    
+                    if (error.code === 'auth/popup-blocked') {
+                        errorMessage = 'Popup engellendi. Lütfen popup engelleyicinizi kapatın.';
+                    } else if (error.code === 'auth/popup-closed-by-user') {
+                        errorMessage = 'Giriş işlemi iptal edildi.';
+                    }
+                    
+                    alert(errorMessage);
                 });
         }
 
@@ -388,6 +498,23 @@
 
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
+            // Auth form
+            document.getElementById('auth-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('email-input').value.trim();
+                const password = document.getElementById('password-input').value;
+                
+                if (!email || !password) {
+                    alert('Lütfen tüm alanları doldurun.');
+                    return;
+                }
+                
+                handleEmailAuth(email, password);
+            });
+
+            // Toggle auth mode
+            document.getElementById('switch-to-signup').addEventListener('click', toggleAuthMode);
+
             // Login modal controls
             document.getElementById('login-btn').addEventListener('click', () => {
                 document.getElementById('login-modal').classList.remove('hidden');
@@ -404,23 +531,20 @@
                 }
             });
 
-            // Auth provider buttons
+            // Auth provider buttons (only Google works reliably on GitHub Pages)
             document.getElementById('google-login-btn').addEventListener('click', () => {
                 if (window.googleProvider) {
                     loginWithProvider(window.googleProvider, 'google');
                 }
             });
 
+            // Note: Apple and GitHub may not work properly on GitHub Pages
             document.getElementById('apple-login-btn').addEventListener('click', () => {
-                if (window.appleProvider) {
-                    loginWithProvider(window.appleProvider, 'apple');
-                }
+                alert('Apple girişi şu anda GitHub Pages\'te desteklenmiyor. Email ile giriş yapmayı deneyin.');
             });
 
             document.getElementById('github-login-btn').addEventListener('click', () => {
-                if (window.githubProvider) {
-                    loginWithProvider(window.githubProvider, 'github');
-                }
+                alert('GitHub girişi için Firebase Console\'da OAuth ayarları gerekli. Email ile giriş yapmayı deneyin.');
             });
 
             document.getElementById('logout-btn').addEventListener('click', logout);
