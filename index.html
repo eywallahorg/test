@@ -1,201 +1,501 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eywallah - Minimal. Modern. Kullanışlı.</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<!-- FirebaseUI CSS -->
-<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/6.0.0/firebaseui.css" />
-<script>
-tailwind.config = {
-    theme: {
-        extend: {
-            fontFamily: { 'inter': ['Inter', 'sans-serif'] },
-            colors: {
-                primary: {50:'#f0f9ff',100:'#e0f2fe',200:'#bae6fd',300:'#7dd3fc',400:'#38bdf8',500:'#0ea5e9',600:'#0284c7'}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eywallah - Minimal. Modern. Reliable.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.css" />
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    }
+                }
+            },
+            darkMode: 'class',
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        
+        .parallax-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        .dark .parallax-bg {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
+            to { box-shadow: 0 0 30px rgba(102, 126, 234, 0.8); }
+        }
+        
+        .hero-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .dark .hero-text {
+            background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .dark .card-hover:hover {
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+        
+        .navbar-scroll {
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .dark .btn-primary:hover {
+            box-shadow: 0 10px 20px rgba(168, 85, 247, 0.4);
+        }
+    </style>
+</head>
+<body class="font-inter bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-all duration-500 overflow-x-hidden">
+    
+    <!-- Header / Navbar -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold hero-text cursor-pointer" id="logo">eywallah</h1>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="#home" class="nav-link px-6 py-3 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">Home</a>
+                    <a href="#about" class="nav-link px-6 py-3 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">About</a>
+                    <a href="#products" class="nav-link px-6 py-3 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">Products</a>
+                    
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="p-3 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-110">
+                        <svg id="sun-icon" class="w-5 h-5 text-yellow-500 hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg id="moon-icon" class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center space-x-2">
+                    <button id="theme-toggle-mobile" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300">
+                        <svg id="sun-icon-mobile" class="w-5 h-5 text-yellow-500 hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg id="moon-icon-mobile" class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    <button id="mobile-menu-button" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <div class="flex flex-col space-y-2">
+                    <a href="#home" class="px-4 py-3 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">Home</a>
+                    <a href="#about" class="px-4 py-3 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">About</a>
+                    <a href="#products" class="px-4 py-3 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">Products</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- FirebaseUI container -->
+    <div id="firebaseui-auth-container" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] hidden items-center justify-center">
+        <div class="bg-white dark:bg-gray-900 rounded-2xl p-8 m-4 max-w-md w-full">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Giriş Yap</h2>
+                <button onclick="closeFirebaseUI()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="firebaseui-container"></div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden">
+            <!-- Parallax Background -->
+            <div class="parallax-bg absolute inset-0 z-0"></div>
+            <div class="absolute inset-0 bg-white/10 dark:bg-black/20 z-10"></div>
+            
+            <!-- Floating Elements -->
+            <div class="absolute top-1/4 left-1/4 w-32 h-32 bg-white/10 rounded-full blur-xl animate-float z-10"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-48 h-48 bg-white/5 rounded-full blur-2xl animate-float z-10" style="animation-delay: -3s;"></div>
+            
+            <div class="text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 z-20 relative">
+                <h2 id="hero-title" class="text-6xl sm:text-7xl lg:text-8xl font-bold mb-6 leading-tight hero-text">
+                    eywallah
+                </h2>
+                <p id="hero-subtitle" class="text-xl sm:text-2xl lg:text-3xl text-white/90 mb-12 font-light">
+                    Minimal. Modern. Reliable.
+                </p>
+                <button id="hero-cta" class="btn-primary text-white font-medium px-8 py-4 rounded-full hover:scale-105 transition-all duration-300 animate-glow">
+                    Explore Now
+                </button>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-32 px-4 sm:px-6 lg:px-8 relative">
+            <div class="container mx-auto max-w-6xl">
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <div class="about-text">
+                        <h3 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-8">
+                            Hayatı Kolaylaştırıyoruz
+                        </h3>
+                        <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                            Eywallah olarak, kar amacı gütmeden insanların günlük yaşamını kolaylaştıran web uygulamaları geliştiriyoruz. Minimal tasarım anlayışımız ve modern teknolojilerle, herkes için erişilebilir çözümler sunuyoruz.
+                        </p>
+                        <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                            Amacımız, teknolojinin gücünü toplumsal faydaya dönüştürmek ve dijital dünyada daha iyi deneyimler yaratmaktır.
+                        </p>
+                    </div>
+                    <div class="about-visual flex justify-center">
+                        <div class="relative">
+                            <div class="w-80 h-80 bg-gradient-to-br from-purple-400 via-blue-500 to-teal-400 rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-105 transition-all duration-500">
+                                <svg class="w-40 h-40 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2L2 7V10C2 16 12 22 12 22S22 16 22 10V7L12 2Z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </div>
+                            <!-- Floating particles -->
+                            <div class="absolute -top-4 -right-4 w-8 h-8 bg-yellow-400 rounded-full animate-bounce"></div>
+                            <div class="absolute -bottom-4 -left-4 w-6 h-6 bg-pink-400 rounded-full animate-pulse"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="py-32 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800/50 transition-all duration-500">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-20">
+                    <h3 class="products-title text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                        Projelerimiz
+                    </h3>
+                    <p class="products-subtitle text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                        Hayatı kolaylaştıran, herkes için erişilebilir web uygulamalarımızı keşfedin.
+                    </p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Product Card 1 -->
+                    <div class="product-card bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-xl card-hover relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full -translate-y-16 translate-x-16"></div>
+                        <div class="relative z-10">
+                            <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-2xl flex items-center justify-center mb-6">
+                                <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <h4 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+                                Görev Yöneticisi
+                            </h4>
+                            <p class="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                                Günlük görevlerinizi düzenleyin, önceliklerinizi belirleyin ve verimliliğinizi artırın.
+                            </p>
+                            <button class="w-full px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 2 -->
+                    <div class="product-card bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-xl card-hover relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-400/20 to-emerald-400/20 rounded-full -translate-y-16 translate-x-16"></div>
+                        <div class="relative z-10">
+                            <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-2xl flex items-center justify-center mb-6">
+                                <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                </svg>
+                            </div>
+                            <h4 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+                                Bütçe Takipçisi
+                            </h4>
+                            <p class="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                                Gelir ve giderlerinizi takip edin, tasarruf hedeflerinize ulaşın ve finansal kontrolü elinize alın.
+                            </p>
+                            <button class="w-full px-6 py-4 bg-green-600 hover:bg-green-700 text-white font-medium rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 3 -->
+                    <div class="product-card bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-xl card-hover relative overflow-hidden sm:col-span-2 lg:col-span-1">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full -translate-y-16 translate-x-16"></div>
+                        <div class="relative z-10">
+                            <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-2xl flex items-center justify-center mb-6">
+                                <svg class="w-8 h-8 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 14l9-5-9-5-9 5 9 5z"/>
+                                    <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+                                </svg>
+                            </div>
+                            <h4 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+                                Öğrenme Platformu
+                            </h4>
+                            <p class="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                                Ücretsiz eğitim içerikleri, interaktif dersler ve kişiselleştirilmiş öğrenme deneyimi.
+                            </p>
+                            <button class="w-full px-6 py-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900 transition-all duration-500">
+        <div class="container mx-auto max-w-6xl text-center">
+            <p class="text-gray-600 dark:text-gray-400">
+                © 2025 eywallah
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const sunIcons = document.querySelectorAll('#sun-icon, #sun-icon-mobile');
+        const moonIcons = document.querySelectorAll('#moon-icon, #moon-icon-mobile');
+
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        
+        if (currentTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+            sunIcons.forEach(icon => icon.classList.remove('hidden'));
+            moonIcons.forEach(icon => icon.classList.add('hidden'));
+        }
+
+        function toggleTheme() {
+            // Animate theme transition
+            gsap.to('body', {
+                duration: 0.3,
+                ease: "power2.inOut"
+            });
+            
+            document.documentElement.classList.toggle('dark');
+            
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+                sunIcons.forEach(icon => icon.classList.remove('hidden'));
+                moonIcons.forEach(icon => icon.classList.add('hidden'));
+            } else {
+                localStorage.setItem('theme', 'light');
+                sunIcons.forEach(icon => icon.classList.add('hidden'));
+                moonIcons.forEach(icon => icon.classList.remove('hidden'));
             }
         }
-    },
-    darkMode: 'class',
-}
-</script>
-</head>
-<body class="font-inter bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
 
-<!-- Header / Navbar -->
-<header class="fixed top-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 z-50 transition-colors duration-300">
-<nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-    <h1 class="text-2xl font-bold text-primary-600 dark:text-primary-400">Eywallah</h1>
-    <div class="space-x-2 flex items-center">
-        <button id="login-btn" class="px-4 py-2 rounded-2xl bg-primary-600 text-white hover:bg-primary-700 transition">Giriş Yap</button>
-        <button id="logout-btn" class="px-4 py-2 rounded-2xl bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-600 hidden transition">Çıkış Yap</button>
-        <button id="theme-toggle" class="p-2 rounded-2xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-            🌙
-        </button>
-    </div>
-</nav>
-</header>
+        themeToggle.addEventListener('click', toggleTheme);
+        themeToggleMobile.addEventListener('click', toggleTheme);
 
-<main class="pt-24">
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
 
-<!-- Hero Section -->
-<section id="home" class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-4xl mx-auto opacity-0 animate-fade-in">
-        <h2 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-            <span class="text-primary-600 dark:text-primary-400">Eywallah</span>
-        </h2>
-        <p class="text-xl sm:text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 mb-12 font-light">
-            Minimal. Modern. Kullanışlı.
-        </p>
-        <a href="#about" class="inline-block px-8 py-4 bg-primary-600 hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600 text-white font-medium rounded-2xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
-            Şimdi Keşfet
-        </a>
-    </div>
-</section>
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
 
-<!-- About Section -->
-<section id="about" class="py-20 px-4 sm:px-6 lg:px-8">
-<div class="container mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
-    <div class="opacity-0 animate-fade-in-up">
-        <h3 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-6">Hayatı Kolaylaştırıyoruz</h3>
-        <p class="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-            Eywallah olarak, kar amacı gütmeden insanların günlük yaşamını kolaylaştıran web uygulamaları geliştiriyoruz.
-        </p>
-        <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-            Amacımız, teknolojinin gücünü toplumsal faydaya dönüştürmek ve dijital dünyada daha iyi deneyimler yaratmaktır.
-        </p>
-    </div>
-    <div class="flex justify-center opacity-0 animate-fade-in-up">
-        <div class="w-64 h-64 bg-gradient-to-br from-primary-200 to-primary-400 dark:from-primary-600 dark:to-primary-800 rounded-2xl flex items-center justify-center shadow-2xl">
-            <svg class="w-32 h-32 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L2 7V10C2 16 12 22 12 22S22 16 22 10V7L12 2Z"/>
-                <circle cx="12" cy="12" r="3"/>
-            </svg>
-        </div>
-    </div>
-</div>
-</section>
+        // Navbar scroll effect
+        ScrollTrigger.create({
+            start: "top -80",
+            end: 99999,
+            toggleClass: {className: "glass-effect bg-white/80 dark:bg-gray-900/80 backdrop-blur-md", targets: "#navbar"}
+        });
 
-<!-- Products Section -->
-<section id="products" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
-<div class="container mx-auto max-w-6xl">
-    <div class="text-center mb-16 opacity-0 animate-fade-in-up">
-        <h3 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Web Uygulamalarımız</h3>
-        <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Hayatı kolaylaştıran, herkes için erişilebilir web uygulamalarımızı keşfedin.</p>
-    </div>
+        // Hero animations
+        gsap.timeline()
+            .fromTo("#hero-title", 
+                { opacity: 0, y: 100, scale: 0.8 }, 
+                { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: "power3.out" }
+            )
+            .fromTo("#hero-subtitle", 
+                { opacity: 0, y: 50 }, 
+                { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, "-=0.6"
+            )
+            .fromTo("#hero-cta", 
+                { opacity: 0, y: 30, scale: 0.9 }, 
+                { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.7)" }, "-=0.4"
+            );
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up">
-            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-2xl flex items-center justify-center mb-6">
-                <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-            </div>
-            <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Görev Yöneticisi</h4>
-            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">Günlük görevlerinizi düzenleyin, önceliklerinizi belirleyin ve verimliliğinizi artırın.</p>
-            <a href="https://eywallahorg.github.io/" class="w-full block text-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-2xl transition-all duration-200 hover:scale-105">Learn More</a>
-        </div>
+        // Parallax background
+        gsap.to(".parallax-bg", {
+            yPercent: -50,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#home",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
 
-        <div class="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up">
-            <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-2xl flex items-center justify-center mb-6">
-                <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                </svg>
-            </div>
-            <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Bütçe Takipçisi</h4>
-            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">Gelir ve giderlerinizi takip edin, tasarruf hedeflerinize ulaşın ve finansal kontrolü elinize alın.</p>
-            <a href="https://eywallahorg.github.io/" class="w-full block text-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-2xl transition-all duration-200 hover:scale-105">Learn More</a>
-        </div>
+        // About section animations
+        gsap.fromTo(".about-text", 
+            { opacity: 0, x: -100 },
+            {
+                opacity: 1,
+                x: 0,
+                duration: 1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: "#about",
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none none"
+                }
+            }
+        );
 
-        <div class="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up sm:col-span-2 lg:col-span-1">
-            <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-2xl flex items-center justify-center mb-6">
-                <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 14l9-5-9-5-9 5 9 5z"/>
-                    <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
-                </svg>
-            </div>
-            <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Öğrenme Platformu</h4>
-            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">Ücretsiz eğitim içerikleri, interaktif dersler ve kişiselleştirilmiş öğrenme deneyimi.</p>
-            <a href="https://eywallahorg.github.io/" class="w-full block text-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-2xl transition-all duration-200 hover:scale-105">Learn More</a>
-        </div>
-    </div>
-</div>
-</section>
+        gsap.fromTo(".about-visual", 
+            { opacity: 0, x: 100, scale: 0.8 },
+            {
+                opacity: 1,
+                x: 0,
+                scale: 1,
+                duration: 1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: "#about",
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none none"
+                }
+            }
+        );
 
-<!-- FirebaseUI Container -->
-<div id="firebaseui-auth-container" class="max-w-md mx-auto my-12"></div>
-<div id="loader" class="text-center">Loading...</div>
+        // Products section animations
+        gsap.fromTo(".products-title", 
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: "#products",
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                }
+            }
+        );
 
-<!-- Footer -->
-<footer class="py-12 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900 transition-colors duration-300">
-<div class="container mx-auto max-w-6xl text-center">
-<p class="text-gray-600 dark:text-gray-400 text-sm">Eywallah</p>
-</div>
-</footer>
+        gsap.fromTo(".products-subtitle", 
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power2.out",
+                delay: 0.2,
+                scrollTrigger: {
+                    trigger: "#products",
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                }
+            }
+        );
 
-<!-- Firebase SDK & UI -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-auth.js";
-import * as firebaseui from "https://cdn.firebase.com/libs/firebaseui/6.0.0/firebaseui.js";
-
-const firebaseConfig = {
-apiKey: "AIzaSyA9ESPDs9xolijZ1DOVc4WmoiooGvtFQf4",
-authDomain: "eywallahorg.firebaseapp.com",
-projectId: "eywallahorg",
-storageBucket: "eywallahorg.firebasestorage.app",
-messagingSenderId: "1040767491342",
-appId: "1:1040767491342:web:facfcc7a3544c6e9310b5f",
-measurementId: "G-DDRMQZRG2X"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-const uiConfig = {
-signInSuccessUrl: '/',
-signInOptions: [
-'password',
-'google.com',
-'github.com'
-]
-};
-
-const ui = new firebaseui.auth.AuthUI(auth);
-
-document.getElementById('login-btn').addEventListener('click', ()=>{
-    ui.start('#firebaseui-auth-container', uiConfig);
-});
-
-document.getElementById('logout-btn').addEventListener('click', ()=>{
-    auth.signOut();
-});
-
-// Navbar buton kontrolü
-onAuthStateChanged(auth, user => {
-    if(user){
-        document.getElementById('login-btn').classList.add('hidden');
-        document.getElementById('logout-btn').classList.remove('hidden');
-    }else{
-        document.getElementById('login-btn').classList.remove('hidden');
-        document.getElementById('logout-btn').classList.add('hidden');
-    }
-});
-
-// Theme toggle
-const themeToggle = document.getElementById('theme-toggle');
-themeToggle.addEventListener('click', ()=>{
-    document.documentElement.classList.toggle('dark');
-});
-</script>
-
-<style>
-@media (prefers-reduced-motion: reduce){*{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}}
-.animate-fade-in{opacity:0;transform:translateY(30px);transition:opacity 0.6s ease-out, transform 0.6s ease-out;}
-.animate-fade-in-up{opacity:0;transform:translateY(30px);transition:opacity 0.6s ease-out, transform 0.6s ease-out;}
-</style>
-
-</body>
-</html>
+        // Product cards st
