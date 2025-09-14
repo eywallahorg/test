@@ -1,163 +1,26 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Eywallah Sim - Yazı Tabanlı</title>
-  <style>
-    body { background: #111; color: #eee; font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-    h1 { color: #4CAF50; }
-    #loginBox, #gameBox { display: none; }
-    .btn { background: #4CAF50; color: white; border: none; padding: 10px 15px; margin: 5px; cursor: pointer; border-radius: 5px; }
-    .btn:hover { background: #45a049; }
-    #hud { margin: 20px 0; padding: 10px; background: #222; border-radius: 5px; }
-    #dialog { background: #222; padding: 15px; border-radius: 8px; margin-top: 15px; white-space: pre-line; }
-    #choices button { display: block; width: 100%; margin: 5px 0; }
-  </style>
+    <meta charset="UTF-8">
+    <title>Babylon.js Araba Oyunu</title>
+    <style>
+        html, body {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+    </style>
 </head>
 <body>
-  <h1>Eywallah Sim 🔑</h1>
-
-  <!-- Login -->
-  <div id="loginBox">
-    <p>Email: <input id="email" type="email"></p>
-    <p>Şifre: <input id="password" type="password"></p>
-    <button class="btn" onclick="login()">Giriş Yap</button>
-    <button class="btn" onclick="register()">Kayıt Ol</button>
-    <p id="loginMsg"></p>
-  </div>
-
-  <!-- Game -->
-  <div id="gameBox">
-    <div id="hud">
-      💰 Para: <span id="money">500</span> | 🎂 Yaş: <span id="age">15</span> | 🧠 Stres: <span id="stress">20</span>
-    </div>
-    <div>
-      <button class="btn" onclick="goTo('Banka')">🏦 Banka</button>
-      <button class="btn" onclick="goTo('Okul')">🏫 Okul</button>
-      <button class="btn" onclick="goTo('İşyeri')">💼 İşyeri</button>
-      <button class="btn" onclick="goTo('Galerici')">🚗 Galerici</button>
-      <button class="btn" onclick="goTo('Evlilik Dairesi')">💍 Evlilik</button>
-    </div>
-    <div id="dialog"></div>
-    <div id="choices"></div>
-  </div>
-
-  <!-- Firebase + AI -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-ai.js";
-
-    // Firebase config (senin bilgiler)
-    const firebaseConfig = {
-      apiKey: "AIzaSyDdkE1j3ClDiNwZLobg09MRpH-vGLQJv-s",
-      authDomain: "eywallahsimulator.firebaseapp.com",
-      projectId: "eywallahsimulator",
-      storageBucket: "eywallahsimulator.appspot.com",
-      messagingSenderId: "734785567506",
-      appId: "1:734785567506:web:1ebdba4ac2e37b907991cb",
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // AI
-    const ai = getAI(app, { backend: new GoogleAIBackend() });
-    const model = getGenerativeModel(ai, { model: "gemini-2.5-flash" });
-
-    let currentUser = null;
-    let gameData = { money: 500, age: 15, stress: 20 };
-
-    // Login/Register
-    async function login() {
-      try {
-        const email = document.getElementById("email").value;
-        const pass = document.getElementById("password").value;
-        await signInWithEmailAndPassword(auth, email, pass);
-      } catch (e) {
-        document.getElementById("loginMsg").innerText = e.message;
-      }
-    }
-    async function register() {
-      try {
-        const email = document.getElementById("email").value;
-        const pass = document.getElementById("password").value;
-        await createUserWithEmailAndPassword(auth, email, pass);
-      } catch (e) {
-        document.getElementById("loginMsg").innerText = e.message;
-      }
-    }
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        currentUser = user;
-        await loadGame();
-        document.getElementById("loginBox").style.display = "none";
-        document.getElementById("gameBox").style.display = "block";
-        updateHUD();
-      } else {
-        document.getElementById("loginBox").style.display = "block";
-        document.getElementById("gameBox").style.display = "none";
-      }
-    });
-
-    // Firestore save/load
-    async function saveGame() {
-      if (!currentUser) return;
-      await setDoc(doc(db, "users", currentUser.uid), gameData);
-    }
-    async function loadGame() {
-      if (!currentUser) return;
-      const ref = doc(db, "users", currentUser.uid);
-      const snap = await getDoc(ref);
-      if (snap.exists()) gameData = snap.data();
-      else await saveGame();
-    }
-
-    function updateHUD() {
-      document.getElementById("money").innerText = gameData.money;
-      document.getElementById("age").innerText = gameData.age;
-      document.getElementById("stress").innerText = gameData.stress;
-      saveGame();
-    }
-
-    // NPC dialog from AI
-    async function getNpcDialog(place) {
-      const prompt = `Sen Eywallah Sim oyunundaki bir NPC'sin. Oyuncu şu an: ${place}.
-      2-3 cümlelik kısa bir karşılama yap, sonra oyuncuya 2 seçenek sun (örn: para yatır, kredi çek).
-      Format: önce diyalog, sonra '1)' ve '2)' ile seçenekler.`;
-      const result = await model.generateContent({
-        contents: [{ role: "user", parts: [{ text: prompt }] }]
-      });
-      return result.response.text();
-    }
-
-    // Oyuncu bir yere gidince
-    async function goTo(place) {
-      document.getElementById("dialog").innerText = "Yükleniyor...";
-      document.getElementById("choices").innerHTML = "";
-      const dialog = await getNpcDialog(place);
-      document.getElementById("dialog").innerText = dialog;
-
-      // Basit seçimler ekle (1-2)
-      const btn1 = document.createElement("button");
-      btn1.className = "btn";
-      btn1.innerText = "Seçenek 1";
-      btn1.onclick = () => { gameData.money += 100; gameData.stress -= 5; updateHUD(); document.getElementById("dialog").innerText = "Seçim 1 sonuçlandı."; };
-      const btn2 = document.createElement("button");
-      btn2.className = "btn";
-      btn2.innerText = "Seçenek 2";
-      btn2.onclick = () => { gameData.money -= 50; gameData.stress += 5; updateHUD(); document.getElementById("dialog").innerText = "Seçim 2 sonuçlandı."; };
-      document.getElementById("choices").appendChild(btn1);
-      document.getElementById("choices").appendChild(btn2);
-    }
-
-    // Expose global
-    window.login = login;
-    window.register = register;
-    window.goTo = goTo;
-  </script>
+    <canvas id="renderCanvas"></canvas>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="oyun.js"></script>
 </body>
 </html>
