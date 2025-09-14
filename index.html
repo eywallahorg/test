@@ -134,14 +134,15 @@
       color: var(--danger-color);
       margin-top: 10px;
       font-size: 0.9em;
+      min-height: 1.2em; /* Prevent layout shift */
     }
 
     /* Main Game UI */
     #game-container {
       display: none; /* Hidden by default until authenticated */
       width: 100%;
-      height: 100%;
-      position: relative;
+      height: 100vh; /* Full viewport height */
+      overflow-y: auto; /* Allow scrolling on the main container */
     }
     #hud {
       position: sticky; /* Make HUD stay at top */
@@ -175,14 +176,13 @@
       flex-wrap: wrap; /* Allow wrapping on smaller screens */
       gap: 20px;
       justify-content: center;
-      padding-top: 20px; /* Space for sticky HUD */
+      padding: 20px;
     }
 
     #cityMenu {
       flex: 1; /* Take available space */
       min-width: 280px; /* Minimum width */
       max-width: 350px;
-      position: relative;
     }
     #cityMenu button {
       margin-bottom: 8px;
@@ -234,7 +234,7 @@
       flex-direction: column;
       height: 600px; /* Fixed height for phone */
       position: sticky;
-      top: 100px; /* Position below HUD */
+      top: 80px; /* Position below HUD */
     }
     #phone .panel-content {
       flex: 1;
@@ -274,7 +274,7 @@
       display: flex;
       flex-direction: column;
       position: sticky;
-      top: 100px;
+      top: 80px;
     }
     #game-messages {
       flex: 1;
@@ -282,6 +282,8 @@
       margin-top: 10px;
       border-top: 1px solid var(--border-color);
       padding-top: 10px;
+      display: flex;
+      flex-direction: column-reverse; /* Newest messages on top, CSS trick */
     }
     #game-messages p {
       margin-bottom: 5px;
@@ -301,7 +303,7 @@
       background-color: #388e3c; /* Darker primary */
     }
     #logout-btn {
-      margin-top: 20px;
+      margin-top: 10px;
       background-color: #666;
     }
     #logout-btn:hover {
@@ -323,6 +325,8 @@
       color: var(--text-light);
       z-index: 2000;
       animation: fadeIn 0.3s ease-out;
+      text-align: center;
+      padding: 20px;
     }
     #miniGame h2 {
       font-size: 2em;
@@ -344,30 +348,47 @@
     }
 
     /* Responsive Adjustments */
+    @media (max-width: 1024px) {
+        .main-content {
+            flex-direction: column;
+            align-items: center;
+        }
+        #cityMenu, #phone, #game-info {
+            width: 95%;
+            max-width: 600px;
+            position: static; /* Remove sticky on small screens */
+            height: auto; /* Let content define height */
+            margin-bottom: 20px;
+        }
+        #phone, #game-info {
+            height: 500px;
+        }
+    }
     @media (max-width: 768px) {
+      body {
+        overflow: auto; /* Allow scroll on small devices */
+      }
       .container {
         flex-direction: column;
         padding: 10px;
         align-items: center;
       }
+      #game-container {
+        height: auto;
+      }
       #hud {
         flex-wrap: wrap;
         justify-content: center;
         padding: 10px 0;
-        top: 0; /* Keep HUD at the very top */
+        position: static; /* No longer sticky */
+        width: 100%;
       }
       #hud p {
         margin: 5px 10px;
         font-size: 0.95em;
       }
       .main-content {
-        padding-top: 10px;
-      }
-      #cityMenu, #phone, #game-info {
-        width: 95%;
-        max-width: 95%;
-        position: static; /* Remove sticky on small screens */
-        height: auto; /* Let content define height */
+        padding: 10px;
       }
       #eventBox {
         min-width: unset;
@@ -382,8 +403,85 @@
       }
     }
   </style>
+</head>
+<body>
 
-  <!-- Firebase SDKs - Kendi projenin ayarlarını BURAYA EKLEMELİSİN -->
+  <div id="auth-screen">
+    <div class="auth-form">
+      <h2>Eywallah Sim</h2>
+      <form id="auth-form">
+        <label for="auth-email">E-posta</label>
+        <input type="email" id="auth-email" required>
+        <label for="auth-password">Şifre</label>
+        <input type="password" id="auth-password" required>
+        <button type="submit" id="auth-submit-btn">Giriş Yap</button>
+        <p id="auth-error"></p>
+        <a id="auth-toggle-link">Hesabınız yok mu? Kaydolun</a>
+      </form>
+    </div>
+  </div>
+
+  <div id="game-container">
+    <div id="hud">
+      <p>💰 <strong>Para:</strong> <span id="money">500</span>₺</p>
+      <p>🎂 <strong>Yaş:</strong> <span id="age">18</span></p>
+      <p>🤯 <strong>Stres:</strong> <span id="stress">20</span></p>
+      <p>😊 <strong>Mutluluk:</strong> <span id="happiness">50</span></p>
+      <p>❤️ <strong>Sağlık:</strong> <span id="health">80</span></p>
+      <p>📅 <strong>Gün:</strong> <span id="day">1</span></p>
+    </div>
+
+    <div class="main-content">
+      <div id="cityMenu" class="panel">
+        <h2>Şehir Menüsü</h2>
+        <button id="visit-bank">🏦 Banka</button>
+        <button id="visit-work">🏢 İş Bulma Kurumu</button>
+        <button id="visit-gallery">🚗 Galeri</button>
+        <button id="visit-school">🎓 Okul</button>
+        <button id="visit-marriage">💍 Evlilik Dairesi</button>
+        <button id="visit-market">🛒 Market</button>
+        <button id="visit-hospital">🏥 Hastane</button>
+        <button id="next-day-btn">Sonraki Güne Geç</button>
+        <button id="logout-btn">Çıkış Yap</button>
+      </div>
+
+      <div id="game-info" class="panel">
+        <h2>Olay Kayıtları</h2>
+        <div id="game-messages">
+            </div>
+      </div>
+
+      <div id="phone" class="panel">
+        <div class="panel-content">
+          <h3>📱 Telefon</h3>
+          <div id="apps">
+            <button id="app-borsa">📊 Borsa</button>
+            <button id="app-gorev">📌 Görev</button>
+            <button id="app-mesaj">💬 Mesaj</button>
+          </div>
+          <div id="appContent">
+            <p>Bir uygulama seçin.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="eventBox">
+    <p id="eventText">Olay metni burada görünecek.</p>
+    <div>
+      </div>
+  </div>
+
+  <div id="miniGame">
+      <h2 id="miniGameText">Görev Başlığı</h2>
+      <p>Doğru seçimi yap ve ödülü kazan!</p>
+      <div>
+          <button id="minigame-success" class="success">Başarılı Ol</button>
+          <button id="minigame-fail" class="fail">Başarısız Ol</button>
+      </div>
+  </div>
+
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
@@ -441,15 +539,13 @@
       document.getElementById("health").innerText = gameData.health;
       document.getElementById("day").innerText = gameData.day;
 
-      // Renklendirme ile durumu daha görünür yap
-      document.getElementById("stress").style.color = gameData.stress > 70 ? varToString('--danger-color') : varToString('--text-light');
-      document.getElementById("happiness").style.color = gameData.happiness < 30 ? varToString('--danger-color') : varToString('--text-light');
-      document.getElementById("health").style.color = gameData.health < 40 ? varToString('--danger-color') : varToString('--text-light');
-    }
-
-    function varToString(variable) {
-        // Simple way to get CSS variable value for JS conditional styling
-        return getComputedStyle(document.documentElement).getPropertyValue(variable);
+      const stressSpan = document.getElementById("stress");
+      const happinessSpan = document.getElementById("happiness");
+      const healthSpan = document.getElementById("health");
+      
+      stressSpan.parentElement.style.color = gameData.stress > 70 ? 'var(--danger-color)' : 'var(--text-light)';
+      happinessSpan.parentElement.style.color = gameData.happiness < 30 ? 'var(--danger-color)' : 'var(--text-light)';
+      healthSpan.parentElement.style.color = gameData.health < 40 ? 'var(--danger-color)' : 'var(--text-light)';
     }
 
     // --- FIREBASE AUTHENTICATION ---
@@ -464,7 +560,6 @@
         currentUser = null;
         document.getElementById('game-container').style.display = 'none';
         document.getElementById('auth-screen').style.display = 'flex';
-        logMessage('Giriş yapın veya kaydolun.', 'info');
       }
       updateHUD();
     });
@@ -499,12 +594,13 @@
 
     function signOutUser() {
       auth.signOut().then(() => {
-        logMessage('Çıkış yapıldı.', 'info');
         // Reset game data when signing out
         gameData = {
           money: 500, age: 18, stress: 20, happiness: 50, health: 80, education: 0,
           job: null, married: false, day: 1, inventory: [], messages: []
         };
+        document.getElementById('game-messages').innerHTML = ''; // Clear logs
+        logMessage('Çıkış yapıldı. Giriş yapın veya kaydolun.', 'info');
         updateHUD();
       }).catch((error) => {
         console.error("Sign out error:", error);
@@ -515,14 +611,10 @@
     async function saveGameData() {
       if (currentUser) {
         try {
-          // Firestore'a kaydetmeden önce message array'ini temizleyebiliriz,
-          // veya son N mesajı kaydedebiliriz.
-          // Şimdilik, sadece önemli gameData'yı kaydedelim.
           const dataToSave = { ...gameData };
           delete dataToSave.messages; // Messages are temporary log, not saved.
 
           await db.collection('users').doc(currentUser.uid).set(dataToSave);
-          logMessage('Oyun kaydedildi!', 'info');
         } catch (error) {
           console.error("Error saving game data:", error);
           logMessage('Oyun kaydedilirken bir hata oluştu.', 'error');
@@ -534,10 +626,14 @@
       try {
         const doc = await db.collection('users').doc(uid).get();
         if (doc.exists) {
-          gameData = { ...gameData, ...doc.data() }; // Overwrite with saved data
+          const loadedData = doc.data();
+          // Ensure all default properties exist in case the saved data is from an older version
+          gameData = { ...gameData, ...loadedData }; 
           logMessage('Kayıtlı oyun yüklendi.', 'success');
         } else {
-          logMessage('Yeni oyun başlatıldı.', 'info');
+          logMessage('Yeni oyun başlatıldı. Verileriniz ilk kayıtta oluşturulacak.', 'info');
+          // Save the initial state for a new user
+          await saveGameData();
         }
       } catch (error) {
         console.error("Error loading game data:", error);
@@ -576,7 +672,6 @@
       saveGameData(); // Save after each significant action
     }
 
-    // Şehir ziyaret
     function visit(place) {
       let eventText = "";
       let options = [];
@@ -585,16 +680,13 @@
         case 'banka':
           eventText = "Banka müdürü sizi karşıladı. 'Nasıl yardımcı olabiliriz?'";
           options = [
-            { text: "Mevduat Hesabı Aç (Para kilitlenir, faiz gelir)", action: () => {
-                logMessage("Mevduat hesabı açtınız.", 'info');
-                // Daha kompleks faiz mekaniği eklenebilir
-              }},
+            { text: "Mevduat Hesabı Aç (Geliştirilecek)", action: () => logMessage("Bu özellik yakında eklenecek.", 'info')},
             { text: "Kredi Çek (500₺, %10 faiz)", action: () => {
                 gameData.money += 500;
                 gameData.stress += 10;
                 logMessage("500₺ kredi çektiniz. Ay sonu ödeme zamanı!", 'warning');
               }},
-            { text: "Harcamalarını İncele", action: () => { logMessage("Harcama geçmişiniz şimdilik boş.", 'info'); }}
+            { text: "Ayrıl", action: () => {} }
           ];
           break;
         case 'is':
@@ -615,7 +707,8 @@
                 } else {
                   logMessage("Yeterli eğitim seviyeniz yok (Min. 50 eğitim puanı gerekli).", 'error');
                 }
-              }}
+              }},
+            { text: "Ayrıl", action: () => {} }
           ];
           break;
         case 'galeri':
@@ -628,7 +721,8 @@
             { text: "Orta Sınıf Araba (5000₺, Stres -10)", action: () => {
                 if (gameData.money >= 5000) { gameData.money -= 5000; gameData.stress -= 10; logMessage("Orta sınıf bir araba aldınız.", 'success'); }
                 else { logMessage("Yeterli paranız yok.", 'error'); }
-              }}
+              }},
+            { text: "Ayrıl", action: () => {} }
           ];
           break;
         case 'okul':
@@ -641,7 +735,8 @@
             { text: "Sosyal Faaliyetlere Katıl (+5 Mutluluk, Stres -5, 30₺)", action: () => {
                 if (gameData.money >= 30) { gameData.money -= 30; gameData.happiness += 5; gameData.stress -= 5; logMessage("Sosyal faaliyetlere katıldınız.", 'success'); }
                 else { logMessage("Sosyal faaliyetler için yeterli paranız yok.", 'error'); }
-              }}
+              }},
+            { text: "Ayrıl", action: () => {} }
           ];
           break;
         case 'evlilik':
@@ -653,13 +748,15 @@
               }},
             { text: "Boşan (Stres +50, Mutluluk -20)", action: () => {
                 gameData.married = false; gameData.stress += 50; gameData.happiness -= 20; logMessage("Boşandınız. Yeni bir sayfa açılıyor.", 'warning');
-              }}
+              }},
+            { text: "Ayrıl", action: () => {} }
           ] : [
             { text: "Evlen (1000₺, Mutluluk +20)", action: () => {
                 if (gameData.money >= 1000) { gameData.married = true; gameData.money -= 1000; gameData.happiness += 20; logMessage("Evlendiniz! Mutlu bir başlangıç.", 'success'); }
                 else { logMessage("Düğün için yeterli paranız yok.", 'error'); }
               }},
-            { text: "Bekar Kal (Stres -5)", action: () => { gameData.stress -= 5; logMessage("Şimdilik bekar kalmaya karar verdiniz.", 'info'); }}
+            { text: "Bekar Kal (Stres -5)", action: () => { gameData.stress -= 5; logMessage("Şimdilik bekar kalmaya karar verdiniz.", 'info'); }},
+            { text: "Ayrıl", action: () => {} }
           ];
           break;
         case 'market':
@@ -672,7 +769,8 @@
             { text: "Atıştırmalık Al (20₺, Sağlık -2, Mutluluk +5)", action: () => {
                 if (gameData.money >= 20) { gameData.money -= 20; gameData.health -= 2; gameData.happiness += 5; logMessage("Atıştırmalık aldınız. Kısa süreli mutluluk.", 'success'); }
                 else { logMessage("Atıştırmalık için yeterli paranız yok.", 'error'); }
-              }}
+              }},
+            { text: "Ayrıl", action: () => {} }
           ];
           break;
         case 'hastane':
@@ -685,13 +783,12 @@
             { text: "Tedavi Gör (250₺, Sağlık +30, Stres -20)", action: () => {
                 if (gameData.money >= 250) { gameData.money -= 250; gameData.health += 30; gameData.stress -= 20; logMessage("Tedavi gördünüz. Sağlığınız önemli ölçüde iyileşti.", 'success'); }
                 else { logMessage("Tedavi için yeterli paranız yok.", 'error'); }
-              }}
+              }},
+            { text: "Ayrıl", action: () => {} }
           ];
           break;
         default:
-          eventText = "Bu yerle ilgili bir sorun var.";
-          options = [{ text: "Tamam", action: () => {} }];
-          break;
+          return;
       }
       showEvent(eventText, options);
     }
@@ -720,7 +817,7 @@
           break;
         case 'mesaj':
           appContent.innerHTML = `<h3>💬 Mesajlar</h3>`;
-          if (gameData.messages.length > 0) {
+          if (gameData.messages && gameData.messages.length > 0) {
             gameData.messages.forEach(msg => {
               appContent.innerHTML += `<p><strong>${msg.sender}:</strong> ${msg.text}</p>`;
             });
@@ -783,16 +880,11 @@
       if (gameData.happiness < 20) gameData.stress += 5;
       if (gameData.health < 30) gameData.happiness -= 5;
 
-      // İş varsa maaş
+      // İş varsa maaş (Maaş mini-oyun ile kazanılıyor)
       if (gameData.job) {
-        let dailySalary = 0;
-        if (gameData.job === "Garson") dailySalary = 150;
-        else if (gameData.job === "Taksici") dailySalary = 200;
-        else if (gameData.job === "Yazılımcı") dailySalary = 400; // Requires high education
-        gameData.money += dailySalary;
-        logMessage(`${gameData.job} işinden ${dailySalary}₺ kazandınız.`, 'success');
+          logMessage("Bugünkü iş görevini yapmayı unutma!", 'info');
       } else {
-        logMessage("İşiniz olmadığı için bugün maaş alamadınız.", 'warning');
+        logMessage("İşiniz olmadığı için bugün maaş alamadınız. İş bulmalısın!", 'warning');
       }
 
       // Rastgele olaylar
@@ -804,14 +896,20 @@
       gameData.happiness = Math.max(0, Math.min(100, gameData.happiness));
       gameData.health = Math.max(0, Math.min(100, gameData.health));
 
-      if (gameData.health <= 0 || gameData.stress >= 100) {
-        logMessage("Oyun bitti! Çok yorgun veya sağlıksızsınız.", 'error');
-        // Oyun bitiş ekranı gösterilebilir
+      if (gameData.health <= 0) {
+        logMessage("Oyun bitti! Sağlığınız tükendi.", 'error');
         alert("Oyun bitti! Yaşam mücadeleniz sona erdi.");
-        signOutUser(); // Oyunu bitirip çıkış yap
+        signOutUser(); 
+        return;
+      }
+       if (gameData.stress >= 100) {
+        logMessage("Oyun bitti! Stressten delirdiniz.", 'error');
+        alert("Oyun bitti! Yaşam mücadeleniz sona erdi.");
+        signOutUser();
         return;
       }
 
+      logMessage("Yeni bir gün başladı.", 'info');
       updateHUD();
       saveGameData();
     }
@@ -827,7 +925,7 @@
           { text: "Riskli bir yatırım yap", action: () => {
               const outcome = Math.random();
               if (outcome < 0.3) { gameData.money += 300; logMessage("Riskli yatırımınız kazanç getirdi!", 'success'); }
-              else { gameData.money -= 100; gameData.stress += 10; logMessage("Yatırımınız hüsranla sonuçlandı.", 'error'); }
+              else { gameData.money = Math.max(0, gameData.money - 100); gameData.stress += 10; logMessage("Yatırımınız hüsranla sonuçlandı.", 'error'); }
             }}
         ]
       },
@@ -861,13 +959,18 @@
           { text: "Tartış (Mutluluk -10, Stres +10)", action: () => { gameData.happiness -= 10; gameData.stress += 10; logMessage("Eşinizle tartıştınız.", 'error'); }}
         ]
       },
-      // Daha fazla diyalog buraya eklenebilir.
-      // Toplam 200 diyalog için bu yapıyı kopyalayıp genişletebilirsin.
-      // Her diyalog için 'type', 'condition', 'text' ve 'options' alanlarını doldurmalısın.
+      {
+        type: "random",
+        condition: (gd) => gd.health < 50,
+        text: "Kendinizi halsiz hissediyorsunuz. Sağlığınıza dikkat etmelisiniz.",
+        options: [
+            { text: "Hastaneye Git", action: () => visit('hastane')},
+            { text: "İdare Ederim De", action: () => { gameData.health -= 5; logMessage("Sağlığınızı ihmal ettiniz.", 'warning'); }}
+        ]
+      }
     ];
 
     function triggerRandomEvent() {
-      // Sadece belirli bir olasılıkla veya koşul sağlandığında olay tetikle
       if (Math.random() < 0.3) { // %30 ihtimalle rastgele olay
         const availableDialogs = dialogs.filter(d => d.type === "random" && d.condition(gameData));
         if (availableDialogs.length > 0) {
@@ -878,14 +981,35 @@
       }
     }
 
-    // Initial load for HUD
-    // updateHUD(); // This is called by onAuthStateChanged now
+    // --- INITIALIZE EVENT LISTENERS ---
+    window.addEventListener('DOMContentLoaded', () => {
+        // Auth screen listeners
+        document.getElementById('auth-form').addEventListener('submit', handleAuthSubmit);
+        document.getElementById('auth-toggle-link').addEventListener('click', toggleAuthMode);
 
-    // Bağlantıları ayarla
-    document.getElementById('auth-form').addEventListener('submit', handleAuthSubmit);
-    document.getElementById('auth-toggle-link').addEventListener('click', toggleAuthMode);
-    document.getElementById('logout-btn').addEventListener('click', signOutUser);
-    document.getElementById('next-day-btn').addEventListener('click', nextDay);
+        // Main game listeners
+        document.getElementById('logout-btn').onclick = signOutUser;
+        document.getElementById('next-day-btn').onclick = nextDay;
+
+        // City Menu listeners
+        document.getElementById('visit-bank').onclick = () => visit('banka');
+        document.getElementById('visit-work').onclick = () => visit('is');
+        document.getElementById('visit-gallery').onclick = () => visit('galeri');
+        document.getElementById('visit-school').onclick = () => visit('okul');
+        document.getElementById('visit-marriage').onclick = () => visit('evlilik');
+        document.getElementById('visit-market').onclick = () => visit('market');
+        document.getElementById('visit-hospital').onclick = () => visit('hastane');
+
+        // Phone listeners
+        document.getElementById('app-borsa').onclick = () => openApp('borsa');
+        document.getElementById('app-gorev').onclick = () => openApp('gorev');
+        document.getElementById('app-mesaj').onclick = () => openApp('mesaj');
+
+        // Mini game listeners
+        document.getElementById('minigame-success').onclick = () => finishMiniGame(true);
+        document.getElementById('minigame-fail').onclick = () => finishMiniGame(false);
+    });
+
   </script>
 </body>
 </html>
