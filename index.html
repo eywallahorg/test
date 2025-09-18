@@ -1,117 +1,763 @@
-section.mission {
-      flex-direction: column;
-      padding: 3rem 1rem;
-    }
-    section.mission .image, section.mission .text {
-      width: 100%;
-    }
-    .counters {
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .counter {
-      max-width: 300px;
-      margin: 0 auto;
-    }
-    .cta-buttons {
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .btn-primary {
-      position: fixed !important;
-      bottom: 1rem;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 400px;
-      border-radius: 50px;
-      font-size: 1.25rem;
-      padding: 1rem;
-      z-index: 100;
-    }
-  }
-
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  }
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geleceğin Mirası: Sen ve Ulusun</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        #gameContainer {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .screen {
+            display: none;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        #menuScreen {
+            display: block;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            padding: 15px 30px;
+            margin: 10px;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .resource-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .resource-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .resource-fill {
+            height: 20px;
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+        }
+        
+        .happiness-fill { background: linear-gradient(90deg, #ff6b6b, #ff8e53); }
+        .nature-fill { background: linear-gradient(90deg, #4ecdc4, #44a08d); }
+        .tech-fill { background: linear-gradient(90deg, #56ccf2, #2f80ed); }
+        
+        .dilemma-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #ffd700;
+        }
+        
+        .choice-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 20px;
+            margin: 8px 0;
+            border-radius: 8px;
+            width: 100%;
+            text-align: left;
+            transition: background 0.3s;
+        }
+        
+        .choice-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .effect {
+            font-size: 0.9em;
+            color: #ddd;
+            margin-top: 5px;
+        }
+        
+        .positive { color: #4ecdc4; }
+        .negative { color: #ff6b6b; }
+        
+        .score-display {
+            font-size: 1.5em;
+            text-align: center;
+            margin: 20px 0;
+            color: #ffd700;
+        }
+        
+        .profession-select {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .profession-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .profession-card:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .profession-card.selected {
+            border: 2px solid #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+        
+        .parallax-container {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .parallax-layer {
+            position: absolute;
+            width: 120%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .layer-1 { /* Mountains/Sky */
+            background: linear-gradient(180deg, #1e3c72, #2a5298);
+            z-index: 1;
+        }
+        
+        .layer-2 { /* Nature */
+            background: linear-gradient(180deg, #2a5298, #4ecdc4);
+            z-index: 2;
+            left: -10%;
+            mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
+        }
+        
+        .layer-3 { /* Cities/Technology */
+            background: linear-gradient(180deg, #4ecdc4, #fdbb2d);
+            z-index: 3;
+            left: -20%;
+            mask-image: linear-gradient(to bottom, transparent 0%, black 40%, black 60%, transparent 100%);
+        }
+        
+        @media (max-width: 768px) {
+            #gameContainer {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            button {
+                padding: 12px 24px;
+                font-size: 1em;
+            }
+            
+            .profession-select {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .profession-card {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
 </head>
 <body>
-
-<header class="hero" aria-label="Eyvallah Gönüllü Web Uygulamaları Topluluğu">
-  <video autoplay muted loop playsinline>
-    <source src="https://cdn.pixabay.com/vimeo/458243091/pexels-artem-podrez-5752729.mp4?width=1280&hash=3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a" type="video/mp4" />
-  </video>
-  <div class="hero-overlay"></div>
-  <div class="container">
-    <h1>Pure Vibe Codingciler ile Gönüllü Web Uygulamaları</h1>
-    <p>Eyvallah, bağış değil, kodla toplumu güçlendiren gönüllülerin buluşma noktasıdır.</p>
-    <button class="btn-primary" onclick="alert('Projelerimize katılmak için teşekkürler!')">Projelerimize Katıl</button>
-  </div>
-</header>
-
-<main>
-
-  <section class="mission container fade-in" id="mission" aria-labelledby="mission-title">
-    <div class="text">
-      <h2 id="mission-title">Misyonumuz</h2>
-      <p>Toplumsal fayda için gönüllü yazılımcılar olarak, açık kaynaklı, erişilebilir ve sürdürülebilir web uygulamaları geliştiriyoruz.</p>
+    <div id="gameContainer">
+        <!-- Menu Screen -->
+        <div id="menuScreen" class="screen fade-in">
+            <h1>Geleceğin Mirası: Sen ve Ulusun</h1>
+            <p>Bir ulusu sadece yönetmek değil, aynı zamanda o ulusun geleceğini kişisel kararlarla şekillendirmek.</p>
+            <div class="parallax-container">
+                <div class="parallax-layer layer-1"></div>
+                <div class="parallax-layer layer-2"></div>
+                <div class="parallax-layer layer-3"></div>
+            </div>
+            <button id="startButton">OYUNU BAŞLAT</button>
+        </div>
+        
+        <!-- Profession Selection -->
+        <div id="professionScreen" class="screen">
+            <h2>Karakterini Seç</h2>
+            <p>Geleceğini şekillendirecek yolculuğuna başlamak için bir meslek seç.</p>
+            
+            <div class="profession-select">
+                <div class="profession-card" data-profession="scientist">
+                    <h3>🔬 Bilim İnsanı</h3>
+                    <p>Teknoloji gelişiminde bonus</p>
+                </div>
+                <div class="profession-card" data-profession="artist">
+                    <h3>🎨 Sanatçı</h3>
+                    <p>Toplumsal mutlulukta bonus</p>
+                </div>
+                <div class="profession-card" data-profession="commander">
+                    <h3>⚔️ Askeri Komutan</h3>
+                    <p>Denge korumada bonus</p>
+                </div>
+            </div>
+            
+            <button id="confirmProfession">SEÇİMİ ONAYLA</button>
+        </div>
+        
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen">
+            <h2 id="nationName">Ulusun</h2>
+            
+            <div class="score-display">
+                Miras Skoru: <span id="legacyScore">0</span>/1000
+            </div>
+            
+            <div class="resource-bar">
+                <div class="resource-icon" style="background: #ff6b6b;">😊</div>
+                <div style="flex: 1;">
+                    <div>Toplumsal Mutluluk</div>
+                    <div class="resource-fill happiness-fill" id="happinessBar"></div>
+                </div>
+                <div id="happinessValue">50</div>
+            </div>
+            
+            <div class="resource-bar">
+                <div class="resource-icon" style="background: #4ecdc4;">🌿</div>
+                <div style="flex: 1;">
+                    <div>Doğa Dengesi</div>
+                    <div class="resource-fill nature-fill" id="natureBar"></div>
+                </div>
+                <div id="natureValue">50</div>
+            </div>
+            
+            <div class="resource-bar">
+                <div class="resource-icon" style="background: #56ccf2;">🔧</div>
+                <div style="flex: 1;">
+                    <div>Teknoloji</div>
+                    <div class="resource-fill tech-fill" id="techBar"></div>
+                </div>
+                <div id="techValue">50</div>
+            </div>
+            
+            <div id="dilemmaContainer">
+                <!-- Dilemma cards will be inserted here -->
+            </div>
+            
+            <div id="personalQuest" style="display: none; background: rgba(255, 215, 0, 0.1); padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 3px solid #ffd700;">
+                <h3>🎯 Kişisel Görev</h3>
+                <p id="questText"></p>
+                <div id="questChoices"></div>
+            </div>
+        </div>
+        
+        <!-- Game Over Screen -->
+        <div id="gameOverScreen" class="screen">
+            <h2>Oyun Sonu</h2>
+            <div id="gameOverMessage"></div>
+            <div class="score-display">
+                Final Miras Skoru: <span id="finalScore">0</span>
+            </div>
+            <button id="restartButton">TEKRAR OYNA</button>
+        </div>
     </div>
-    <div class="image" aria-hidden="true">
-      <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" alt="Gönüllü yazılımcılar birlikte çalışıyor" loading="lazy" />
-    </div>
-  </section>
 
-  <section class="impact" id="impact" aria-labelledby="impact-title">
-    <h2 id="impact-title">Topluluk Etkimiz</h2>
-    <div class="counters" role="list" aria-label="Topluluk sayısal göstergeler">
-      <div class="counter fade-in" role="listitem" aria-live="polite" aria-atomic="true">
-        <div class="icon" aria-hidden="true">💻</div>
-        <div class="number" data-target="25">0</div>
-        <div class="label">Tamamlanan Proje</div>
-      </div>
-      <div class="counter fade-in" role="listitem" aria-live="polite" aria-atomic="true">
-        <div class="icon" aria-hidden="true">🤝</div>
-        <div class="number" data-target="80">0</div>
-        <div class="label">Aktif Gönüllü</div>
-      </div>
-      <div class="counter fade-in" role="listitem" aria-live="polite" aria-atomic="true">
-        <div class="icon" aria-hidden="true">🌍</div>
-        <div class="number" data-target="10">0</div>
-        <div class="label">Desteklenen Topluluk</div>
-      </div>
-    </div>
-  </section>
+    <script>
+        class Game {
+            constructor() {
+                this.gameState = 'menu';
+                this.resources = {
+                    happiness: 50,
+                    nature: 50,
+                    technology: 50
+                };
+                this.legacyScore = 0;
+                this.profession = null;
+                this.turn = 0;
+                this.maxTurns = 30;
+                this.initializeGame();
+            }
+            
+            initializeGame() {
+                this.setupEventListeners();
+                this.showScreen('menuScreen');
+                this.updateParallax();
+            }
+            
+            setupEventListeners() {
+                document.getElementById('startButton').addEventListener('click', () => {
+                    this.showScreen('professionScreen');
+                });
+                
+                document.querySelectorAll('.profession-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        document.querySelectorAll('.profession-card').forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected');
+                        this.profession = card.dataset.profession;
+                    });
+                });
+                
+                document.getElementById('confirmProfession').addEventListener('click', () => {
+                    if (this.profession) {
+                        this.startGame();
+                    } else {
+                        alert('Lütfen bir meslek seçin!');
+                    }
+                });
+                
+                document.getElementById('restartButton').addEventListener('click', () => {
+                    this.resetGame();
+                    this.showScreen('menuScreen');
+                });
+            }
+            
+            startGame() {
+                this.gameState = 'playing';
+                this.turn = 0;
+                this.resources = {
+                    happiness: 50,
+                    nature: 50,
+                    technology: 50
+                };
+                this.legacyScore = 0;
+                this.showScreen('gameScreen');
+                this.updateResources();
+                this.generateDilemma();
+                this.maybeGeneratePersonalQuest();
+            }
+            
+            showScreen(screenId) {
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.style.display = 'none';
+                });
+                document.getElementById(screenId).style.display = 'block';
+            }
+            
+            updateResources() {
+                // Update resource bars
+                document.getElementById('happinessBar').style.width = this.resources.happiness + '%';
+                document.getElementById('natureBar').style.width = this.resources.nature + '%';
+                document.getElementById('techBar').style.width = this.resources.technology + '%';
+                
+                // Update resource values
+                document.getElementById('happinessValue').textContent = Math.round(this.resources.happiness);
+                document.getElementById('natureValue').textContent = Math.round(this.resources.nature);
+                document.getElementById('techValue').textContent = Math.round(this.resources.technology);
+                
+                // Calculate legacy score (50% happiness, 30% nature, 20% tech)
+                this.legacyScore = Math.round(
+                    (this.resources.happiness * 0.5) +
+                    (this.resources.nature * 0.3) +
+                    (this.resources.technology * 0.2)
+                );
+                document.getElementById('legacyScore').textContent = this.legacyScore;
+                
+                // Update parallax based on resources
+                this.updateParallax();
+                
+                // Check win/lose conditions
+                if (this.legacyScore >= 1000) {
+                    this.endGame('win');
+                } else if (this.turn >= this.maxTurns) {
+                    this.endGame('timeout');
+                } else if (this.resources.happiness <= 0 || this.resources.nature <= 0 || this.resources.technology <= 0) {
+                    this.endGame('collapse');
+                }
+            }
+            
+            updateParallax() {
+                const layer2 = document.querySelector('.layer-2');
+                const layer3 = document.querySelector('.layer-3');
+                
+                // Adjust nature layer based on nature balance
+                const natureOpacity = this.resources.nature / 100;
+                layer2.style.opacity = natureOpacity;
+                
+                // Adjust tech layer based on technology
+                const techOpacity = this.resources.technology / 100;
+                layer3.style.opacity = techOpacity;
+                
+                // Adjust colors based on resources
+                const happinessHue = (this.resources.happiness / 100) * 60;
+                layer3.style.background = `linear-gradient(180deg, #4ecdc4, hsl(${happinessHue}, 100%, 50%))`;
+            }
+            
+            generateDilemma() {
+                this.turn++;
+                const dilemmas = [
+                    {
+                        title: "Yeni Enerji Kaynağı",
+                        description: "Ulusunuzun enerji ihtiyacı artıyor. Hangi kaynağı tercih edersiniz?",
+                        choices: [
+                            {
+                                text: "Kömür Santrali İnşa Et",
+                                effects: { technology: 20, nature: -15 },
+                                description: "Hızlı enerji ama çevreye zarar"
+                            },
+                            {
+                                text: "Güneş Enerjisi Santrali Kur",
+                                effects: { technology: 10, nature: 10 },
+                                description: "Temiz enerji ama yavaş ilerleme"
+                            },
+                            {
+                                text: "Nükleer Enerji Araştır",
+                                effects: { technology: 25, nature: -20, happiness: -5 },
+                                description: "Yüksek risk, yüksek ödül"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Eğitim Reformu",
+                        description: "Eğitim sisteminizi modernize etmek istiyorsunuz.",
+                        choices: [
+                            {
+                                text: "STEM Odaklı Eğitim",
+                                effects: { technology: 20, happiness: -5 },
+                                description: "Teknoloji gelişir ama sanat zarar görür"
+                            },
+                            {
+                                text: "Sanat ve Kültür Ağırlıklı",
+                                effects: { happiness: 15, technology: -10 },
+                                description: "Mutluluk artar ama teknoloji geriler"
+                            },
+                            {
+                                text: "Dengeli Yaklaşım",
+                                effects: { technology: 5, happiness: 5, nature: 5 },
+                                description: "Her alanda mütevazi gelişim"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Doğa Koruma Politikası",
+                        description: "Ormanlarımız tehdit altında. Nasıl müdahale edelim?",
+                        choices: [
+                            {
+                                text: "Sıkı Koruma Yasaları",
+                                effects: { nature: 20, technology: -10 },
+                                description: "Doğa korunur ama sanayi engellenir"
+                            },
+                            {
+                                text: "Sürdürülebilir Kalkınma",
+                                effects: { nature: 10, technology: 5 },
+                                description: "Dengeyi koruyarak ilerleme"
+                            },
+                            {
+                                text: "Ekonomik Öncelik",
+                                effects: { technology: 15, nature: -20 },
+                                description: "Hızlı büyüme ama doğaya zarar"
+                            }
+                        ]
+                    }
+                ];
+                
+                const dilemma = dilemmas[Math.floor(Math.random() * dilemmas.length)];
+                const dilemmaHTML = `
+                    <div class="dilemma-card fade-in">
+                        <h3>${dilemma.title}</h3>
+                        <p>${dilemma.description}</p>
+                        <div class="choices">
+                            ${dilemma.choices.map((choice, index) => `
+                                <button class="choice-button" data-index="${index}">
+                                    ${choice.text}
+                                    <div class="effect">${choice.description}</div>
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('dilemmaContainer').innerHTML = dilemmaHTML;
+                
+                // Add event listeners to choice buttons
+                document.querySelectorAll('.choice-button').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const choiceIndex = parseInt(button.dataset.index);
+                        this.applyChoiceEffects(dilemma.choices[choiceIndex].effects);
+                        document.getElementById('dilemmaContainer').innerHTML = '';
+                        this.maybeGeneratePersonalQuest();
+                    });
+                });
+            }
+            
+            applyChoiceEffects(effects) {
+                // Apply profession bonuses
+                if (this.profession === 'scientist' && effects.technology > 0) {
+                    effects.technology *= 1.2;
+                } else if (this.profession === 'artist' && effects.happiness > 0) {
+                    effects.happiness *= 1.2;
+                } else if (this.profession === 'commander') {
+                    // Commander gets smaller bonuses but less penalties
+                    Object.keys(effects).forEach(key => {
+                        if (effects[key] > 0) effects[key] *= 1.1;
+                        if (effects[key] < 0) effects[key] *= 0.8;
+                    });
+                }
+                
+                // Apply effects to resources
+                Object.keys(effects).forEach(key => {
+                    this.resources[key] = Math.max(0, Math.min(100, this.resources[key] + effects[key]));
+                });
+                
+                this.updateResources();
+                
+                // Play sound effect
+                this.playSound('decision');
+                
+                // Generate new dilemma after a short delay
+                setTimeout(() => {
+                    this.generateDilemma();
+                }, 1500);
+            }
+            
+            maybeGeneratePersonalQuest() {
+                // 30% chance of personal quest
+                if (Math.random() < 0.3) {
+                    const quests = [
+                        {
+                            text: "Genç sanatçılar şehrin ana meydanına bir heykel yapmak istiyor. Yardım etmeli misin?",
+                            choices: [
+                                { text: "Destekle", effects: { happiness: 10 }, cost: { technology: 5 } },
+                                { text: "Reddet", effects: {} }
+                            ]
+                        },
+                        {
+                            text: "Bilim adamları yeni bir teknoloji keşfetti ama riskli. Fon sağlamalı mısın?",
+                            choices: [
+                                { text: "Fon Sağla", effects: { technology: 15 }, cost: { nature: -5 } },
+                                { text: "Reddet", effects: { happiness: -5 } }
+                            ]
+                        },
+                        {
+                            text: "Doğa koruma gönüllüleri orman temizliği yapmak istiyor. Katılmalı mısın?",
+                            choices: [
+                                { text: "Katıl", effects: { nature: 10, happiness: 5 }, cost: { technology: -5 } },
+                                { text: "Reddet", effects: { nature: -5 } }
+                            ]
+                        }
+                    ];
+                    
+                    const quest = quests[Math.floor(Math.random() * quests.length)];
+                    const questElement = document.getElementById('personalQuest');
+                    const questText = document.getElementById('questText');
+                    const questChoices = document.getElementById('questChoices');
+                    
+                    questText.textContent = quest.text;
+                    questChoices.innerHTML = quest.choices.map((choice, index) => `
+                        <button class="choice-button" data-quest-index="${index}">
+                            ${choice.text}
+                        </button>
+                    `).join('');
+                    
+                    questElement.style.display = 'block';
+                    
+                    // Add event listeners to quest choice buttons
+                    document.querySelectorAll('#questChoices .choice-button').forEach(button => {
+                        button.addEventListener('click', () => {
+                            const choiceIndex = parseInt(button.dataset.questIndex);
+                            const choice = quest.choices[choiceIndex];
+                            
+                            // Apply effects and costs
+                            Object.keys(choice.effects || {}).forEach(key => {
+                                this.resources[key] = Math.max(0, Math.min(100, this.resources[key] + choice.effects[key]));
+                            });
+                            
+                            Object.keys(choice.cost || {}).forEach(key => {
+                                this.resources[key] = Math.max(0, Math.min(100, this.resources[key] + choice.cost[key]));
+                            });
+                            
+                            this.updateResources();
+                            questElement.style.display = 'none';
+                            this.playSound('quest');
+                        });
+                    });
+                }
+            }
+            
+            endGame(reason) {
+                this.gameState = 'gameover';
+                const messageElement = document.getElementById('gameOverMessage');
+                const finalScoreElement = document.getElementById('finalScore');
+                
+                finalScoreElement.textContent = this.legacyScore;
+                
+                switch (reason) {
+                    case 'win':
+                        messageElement.innerHTML = `<h3 class="pulse">Tebrikler! Mirasınızı Yarattınız!</h3>
+                        <p>Ulusunuz gelecek nesiller için sürdürülebilir bir miras bıraktı.</p>`;
+                        break;
+                    case 'timeout':
+                        messageElement.innerHTML = `<h3>Süre Doldu</h3>
+                        <p>Yönetim döneminiz sona erdi. Mirasınız: ${this.legacyScore} puan</p>`;
+                        break;
+                    case 'collapse':
+                        messageElement.innerHTML = `<h3>Çöküş</h3>
+                        <p>Ulusunuz kritik bir kaynağı tükettiği için çöktü.</p>`;
+                        break;
+                }
+                
+                this.showScreen('gameOverScreen');
+                this.playSound(reason === 'win' ? 'victory' : 'defeat');
+            }
+            
+            resetGame() {
+                this.resources = {
+                    happiness: 50,
+                    nature: 50,
+                    technology: 50
+                };
+                this.legacyScore = 0;
+                this.profession = null;
+                this.turn = 0;
+            }
+            
+            playSound(type) {
+                // Simple Web Audio API sound effects
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    switch (type) {
+                        case 'decision':
+                            oscillator.type = 'sine';
+                            oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                            break;
+                        case 'quest':
+                            oscillator.type = 'triangle';
+                            oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime);
+                            break;
+                        case 'victory':
+                            oscillator.type = 'sine';
+                            oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime);
+                            break;
+                        case 'defeat':
+                            oscillator.type = 'sawtooth';
+                            oscillator.frequency.setValueAtTime(293.66, audioContext.currentTime);
+                            break;
+                    }
+                    
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                    
+                    oscillator.start();
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                } catch (e) {
+                    console.log('Audio not supported');
+                }
+            }
+        }
+        
+        // Initialize game when DOM is loaded
+        window.addEventListener('DOMContentLoaded', () => {
+            const game = new Game();
+            
+            // Add parallax effect on scroll
+            window.addEventListener('scroll', () => {
+                game.updateParallax();
+            });
+            
+            // Add touch support for mobile
+            document.addEventListener('touchstart', function() {}, {passive: true});
+            document.addEventListener('touchmove', function() {}, {passive: true});
+            
+            // Save high scores to local storage
+            if (typeof Storage !== 'undefined') {
+                const highScore = localStorage.getItem('mirasHighScore') || 0;
+                console.log('Yüksek skor:', highScore);
+            }
+        });
+    </script>
+</body>
+</html>
 
-  <section class="cta" id="cta" aria-labelledby="cta-title">
-    <h2 id="cta-title">Sen de Katıl, Kodla Değiştir</h2>
-    <div class="cta-buttons">
-      <div>
-        <p class="cta-description">Projelerimize katılarak topluma katkı sağla.</p>
-        <button class="btn-secondary" onclick="alert('Projelerimize katılmak için teşekkürler!')">Projelerimize Katıl</button>
-      </div>
-      <div>
-        <p class="cta-description">Gönüllü olarak yeteneklerini paylaş.</p>
-        <button class="btn-secondary" onclick="alert('Gönüllü ol sayfasına yönlendiriliyorsunuz...')">Gönüllü Ol</button>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<script>
-  const faders = document.querySelectorAll('.fade-in');
-
-  const appearOptions = {
-    threshold: 0.2,
-    rootMargin: "0px 0px -50px 0px"
-  };
-
-  const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
-    entries.forEach(entry =
