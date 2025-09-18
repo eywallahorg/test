@@ -1,318 +1,415 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eywallah - Profesyonel Dijital Çözümler</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* Genel Stil Ayarları */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f7f6;
-            color: #333;
-            line-height: 1.7;
-        }
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        /* Header */
-        .header {
-            background-color: #2c3e50; /* Koyu Gri */
-            color: #ecf0f1; /* Açık Gri */
-            padding: 3rem 0;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .header h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            letter-spacing: 3px;
-        }
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        /* Navigasyon */
-        .navbar {
-            background-color: #ffffff;
-            padding: 1rem 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .navbar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            text-align: center;
-        }
-        .navbar ul li {
-            display: inline-block;
-            margin: 0 20px;
-        }
-        .navbar ul li a {
-            color: #34495e; /* Orta Gri */
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
-        }
-        .navbar ul li a:hover {
-            color: #3498db; /* Açık Mavi */
-        }
-        /* Section Styling */
-        .section {
-            margin-top: 2rem;
-            padding: 2rem;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        }
-        .section h2 {
-            color: #2980b9; /* Mavi */
-            border-bottom: 3px solid #3498db; /* Açık Mavi */
-            padding-bottom: 0.7rem;
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
-        }
-        /* Mission/Vision */
-        .mission-vision-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .mission-vision-item {
-            flex: 1;
-            min-width: 280px;
-            background-color: #eaf2f8; /* Açık Mavi Arkaplan */
-            padding: 25px;
-            border-radius: 8px;
-            border-left: 5px solid #3498db; /* Açık Mavi Kenarlık */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-        }
-        .mission-vision-item h3 {
-            color: #2980b9;
-            margin-top: 0;
-            font-size: 1.5rem;
-        }
-        /* Services */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-        .service-card {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-        }
-        .service-card i {
-            font-size: 3rem;
-            color: #3498db; /* Açık Mavi */
-            margin-bottom: 20px;
-        }
-        .service-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-        /* Contact */
-        .contact-details {
-            text-align: center;
-        }
-        .contact-details p {
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-        .contact-details strong {
-            color: #2c3e50;
-        }
-        .contact-details a {
-            color: #3498db;
-            text-decoration: none;
-        }
-        .contact-details a:hover {
-            text-decoration: underline;
-        }
-        /* Footer */
-        .footer {
-            background-color: #2c3e50;
-            color: #bdc3c7;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 3rem;
-            font-size: 0.9rem;
-        }
-        /* Responsive Tasarım */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2.5rem;
-            }
-            .header p {
-                font-size: 1rem;
-            }
-            .navbar ul li {
-                display: block;
-                margin: 10px 0;
-            }
-            .mission-vision-container {
-                flex-direction: column;
-            }
-            .mission-vision-item {
-                width: 100%;
-            }
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Eyvallah - Gönüllü Web Uygulamaları Topluluğu</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Merriweather&family=Montserrat:wght@700&display=swap');
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body, h1, h2, h3, p, ul, li, button {
+    margin: 0; padding: 0;
+  }
+  body {
+    font-family: 'Merriweather', serif;
+    background: #f7f9fa;
+    color: #333;
+    line-height: 1.6;
+  }
+  h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #1a2a3a;
+  }
+  h1 {
+    font-size: 2.8rem;
+    line-height: 1.1;
+  }
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5em;
+  }
+  h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.3em;
+  }
+  p {
+    font-size: 1rem;
+    color: #4a4a4a;
+  }
+  a {
+    color: #00796b;
+    text-decoration: none;
+  }
+  a:hover, button:hover {
+    opacity: 0.85;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  header.hero {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(10,25,47,0.7) 0%, rgba(10,25,47,0.85) 100%);
+  }
+  header.hero video {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: -2;
+  }
+  header.hero .hero-overlay {
+    position: absolute;
+    top:0; left:0; width:100%; height:100%;
+    background: linear-gradient(180deg, rgba(10,25,47,0.6) 0%, rgba(10,25,47,0.9) 100%);
+    z-index: -1;
+  }
+  header.hero h1 {
+    font-size: 3rem;
+    max-width: 700px;
+    margin-bottom: 0.5rem;
+  }
+  header.hero p {
+    font-size: 1.25rem;
+    max-width: 500px;
+    margin-bottom: 1.5rem;
+  }
+  header.hero .btn-primary {
+    background-color: #00796b;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,121,107,0.4);
+    transition: background-color 0.3s ease;
+    position: sticky;
+    top: 1rem;
+    z-index: 10;
+  }
+  header.hero .btn-primary:focus {
+    outline: 3px solid #ff7043;
+    outline-offset: 3px;
+  }
+  header.hero .btn-primary:hover {
+    background-color: #004d40;
+  }
+
+  section.mission {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 4rem 1rem;
+    background: #f0f4f8;
+  }
+  section.mission .text {
+    flex: 1;
+  }
+  section.mission .text h2 {
+    color: #0a1930;
+    margin-bottom: 1rem;
+  }
+  section.mission .text p {
+    font-size: 1.125rem;
+    color: #3a3a3a;
+  }
+  section.mission .image {
+    flex: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  }
+  section.mission .image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  section.impact {
+    background: white;
+    padding: 4rem 1rem;
+    text-align: center;
+  }
+  section.impact h2 {
+    margin-bottom: 2rem;
+    color: #0a1930;
+  }
+  .counters {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .counter {
+    flex: 1 1 150px;
+    background: #e9f1f7;
+    border-radius: 12px;
+    padding: 2rem 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  .counter .number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #00796b;
+    margin-bottom: 0.5rem;
+  }
+  .counter .label {
+    font-size: 1.125rem;
+    color: #4a4a4a;
+  }
+  .counter .icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    color: #ff7043;
+  }
+
+  section.cta {
+    background: #00796b;
+    color: white;
+    padding: 4rem 1rem;
+    text-align: center;
+  }
+  section.cta h2 {
+    margin-bottom: 1.5rem;
+  }
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .btn-secondary {
+    background-color: #ff7043;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255,112,67,0.5);
+    transition: background-color 0.3s ease;
+  }
+  .btn-secondary:hover {
+    background-color: #e64a19;
+  }
+  .btn-secondary:focus {
+    outline: 3px solid #004d40;
+    outline-offset: 3px;
+  }
+  .cta-description {
+    max-width: 300px;
+    margin: 0 auto 1rem;
+    font-size: 1rem;
+  }
+
+  section {
+    scroll-margin-top: 80px;
+  }
+
+  @media (max-width: 768px) {
+    header.hero h1 {
+      font-size: 2rem;
+      padding: 0 1rem;
+    }
+    header.hero p {
+      font-size: 1rem;
+      padding: 0 1rem;
+    }
+    section.mission {
+      flex-direction: column;
+      padding: 3rem 1rem;
+    }
+    section.mission .image, section.mission .text {
+      width: 100%;
+    }
+    .counters {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .counter {
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .cta-buttons {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .btn-primary {
+      position: fixed !important;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 400px;
+      border-radius: 50px;
+      font-size: 1.25rem;
+      padding: 1rem;
+      z-index: 100;
+    }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
 </head>
 <body>
 
-    <header class="header">
-        <div class="container">
-            <h1>Eywallah Org.</h1>
-            <p>Dijital Dönüşümde Stratejik Ortağınız</p>
-        </div>
-    </header>
+<header class="hero" aria-label="Eyvallah Gönüllü Web Uygulamaları Topluluğu">
+  <video autoplay muted loop playsinline>
+    <source src="https://cdn.pixabay.com/vimeo/458243091/pexels-artem-podrez-5752729.mp4?width=1280&hash=3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a" type="video/mp4" />
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="container">
+    <h1>Pure Vibe Codingciler ile Gönüllü Web Uygulamaları</h1>
+    <p>Eyvallah, bağış değil, kodla toplumu güçlendiren gönüllülerin buluşma noktasıdır.</p>
+    <button class="btn-primary" onclick="alert('Projelerimize katılmak için teşekkürler!')">Projelerimize Katıl</button>
+  </div>
+</header>
 
-    <nav class="navbar">
-        <div class="container">
-            <ul>
-                <li><a href="#about">Hakkımızda</a></li>
-                <li><a href="#mission-vision">Misyon & Vizyon</a></li>
-                <li><a href="#services">Hizmetlerimiz</a></li>
-                <li><a href="#contact">İletişim</a></li>
-            </ul>
-        </div>
-    </nav>
+<main>
 
-    <div class="container">
-
-        <section id="about" class="section">
-            <h2>Hakkımızda</h2>
-            <p>Eywallah Org. olarak, işletmenizin dijital dünyadaki potansiyelini maksimize etmek için yenilikçi ve stratejik çözümler sunuyoruz. Alanında uzmanlaşmış profesyonellerden oluşan ekibimiz, her projeye derinlemesine bir anlayışla yaklaşarak, müşterilerimizin benzersiz ihtiyaçlarına özel çözümler geliştirir. Teknolojinin sunduğu en son imkanları kullanarak, markanızın dijital ayak izini güçlendiriyor, rekabet avantajı sağlıyoruz.</p>
-        </section>
-
-        <section id="mission-vision" class="section">
-            <h2>Misyon ve Vizyon</h2>
-            <div class="mission-vision-container">
-                <div class="mission-vision-item">
-                    <h3>Misyonumuz</h3>
-                    <p>Müşterilerimize değer katan, sürdürülebilir ve teknolojik olarak üstün çözümler sunarak iş hedeflerine ulaşmalarını sağlamak. Yenilikçilik ve müşteri memnuniyeti temel prensiplerimizdir.</p>
-                </div>
-                <div class="mission-vision-item">
-                    <h3>Vizyonumuz</h3>
-                    <p>Dijital teknolojiler alanında global bir lider olmak, sektörümüzdeki en güvenilir ve tercih edilen marka haline gelmektir. Sürekli gelişim ve yenilikçi yaklaşımlarımızla geleceğin dijital dünyasını şekillendiriyoruz.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="services" class="section">
-            <h2>Hizmetlerimiz</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <i class="fas fa-code"></i>
-                    <h3>Web Geliştirme</h3>
-                    <p>Modern, SEO uyumlu ve kullanıcı dostu web siteleri.</p>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-mobile-alt"></i>
-                    <h3>Mobil Uygulama</h3>
-                    <p>iOS ve Android için yenilikçi mobil çözümler.</p>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-shopping-cart"></i>
-                    <h3>E-Ticaret</h3>
-                    <p>Güvenli ve etkili online satış altyapıları.</p>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>Dijital Pazarlama & SEO</h3>
-                    <p>Marka görünürlüğünüzü artıran stratejiler.</p>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-paint-brush"></i>
-                    <h3>Kurumsal Kimlik</h3>
-                    <p>Dijital dünyada güçlü bir marka imajı.</p>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-headset"></i>
-                    <h3>Yazılım Danışmanlığı</h3>
-                    <p>İş süreçlerinizi optimize eden çözümler.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="section contact-details">
-            <h2>İletişim</h2>
-            <p><strong>Adres:</strong> Eywallah Plaza, Dijital Mah. Kod Sok. No:1, İstanbul, Türkiye</p>
-            <p><strong>Telefon:</strong> <a href="tel:+902125550101">+90 212 555 01 01</a></p>
-            <p><strong>E-posta:</strong> <a href="mailto:info@eywallah.org">info@eywallah.org</a></p>
-            <p><strong>Web Sitesi:</strong> <a href="http://www.eywallah.org" target="_blank">www.eywallah.org</a></p>
-        </section>
-
+  <section class="mission container fade-in" id="mission" aria-labelledby="mission-title">
+    <div class="text">
+      <h2 id="mission-title">Misyonumuz</h2>
+      <p>Toplumsal fayda için gönüllü yazılımcılar olarak, açık kaynaklı, erişilebilir ve sürdürülebilir web uygulamaları geliştiriyoruz.</p>
     </div>
+    <div class="image" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" alt="Gönüllü yazılımcılar birlikte çalışıyor" loading="lazy" />
+    </div>
+  </section>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2023 Eywallah Org. Tüm Hakları Saklıdır.</p>
-        </div>
-    </footer>
+  <section class="impact" id="impact" aria-labelledby="impact-title">
+    <h2 id="impact-title">Topluluk Etkimiz</h2>
+    <div class="counters" role="list" aria-label="Topluluk sayısal göstergeler">
+      <div class="counter fade-in" role="listitem" aria-live="polite" aria-atomic="true">
+        <div class="icon" aria-hidden="true">💻</div>
+        <div class="number" data-target="25">0</div>
+        <div class="label">Tamamlanan Proje</div>
+      </div>
+      <div class="counter fade-in" role="listitem" aria-live="polite" aria-atomic="true">
+        <div class="icon" aria-hidden="true">🤝</div>
+        <div class="number" data-target="80">0</div>
+        <div class="label">Aktif Gönüllü</div>
+      </div>
+      <div class="counter fade-in" role="listitem" aria-live="polite" aria-atomic="true">
+        <div class="icon" aria-hidden="true">🌍</div>
+        <div class="number" data-target="10">0</div>
+        <div class="label">Desteklenen Topluluk</div>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        // JavaScript ile basit animasyonlar veya etkileşimler eklenebilir.
-        // Örneğin, scroll ile animasyonlar tetiklenebilir.
-        document.addEventListener('DOMContentLoaded', () => {
-            const observerOptions = {
-                root: null, // viewport'u kullan
-                threshold: 0.1 // %10 görünür olduğunda tetikle
-            };
+  <section class="cta" id="cta" aria-labelledby="cta-title">
+    <h2 id="cta-title">Sen de Katıl, Kodla Değiştir</h2>
+    <div class="cta-buttons">
+      <div>
+        <p class="cta-description">Projelerimize katılarak topluma katkı sağla.</p>
+        <button class="btn-secondary" onclick="alert('Projelerimize katılmak için teşekkürler!')">Projelerimize Katıl</button>
+      </div>
+      <div>
+        <p class="cta-description">Gönüllü olarak yeteneklerini paylaş.</p>
+        <button class="btn-secondary" onclick="alert('Gönüllü ol sayfasına yönlendiriliyorsunuz...')">Gönüllü Ol</button>
+      </div>
+    </div>
+  </section>
 
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
+</main>
 
-            const serviceCards = document.querySelectorAll('.service-card');
-            serviceCards.forEach(card => {
-                observer.observe(card);
-            });
-        });
+<script>
+  const faders = document.querySelectorAll('.fade-in');
 
-        // CSS'te .service-card.visible için stil tanımlanmalı (örneğin opacity, transform)
-        // Örnek CSS eklemesi:
-        /*
-        .service-card {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  const appearOptions = {
+    threshold: 0.2,
+    rootMargin: "0px 0px -50px 0px"
+  };
+
+  const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      appearOnScroll.unobserve(entry.target);
+    });
+  }, appearOptions);
+
+  faders.forEach(fader => {
+    appearOnScroll.observe(fader);
+  });
+
+  const counters = document.querySelectorAll('.counter .number');
+  let countersStarted = false;
+
+  function animateCounters() {
+    if (countersStarted) return;
+    counters.forEach(counter => {
+      const updateCount = () => {
+        const target = +counter.getAttribute('data-target');
+        const count = +counter.innerText;
+        const increment = target / 100;
+
+        if (count < target) {
+          counter.innerText = Math.ceil(count + increment);
+          setTimeout(updateCount, 20);
+        } else {
+          counter.innerText = target + (target >= 1000 ? '+' : '');
         }
-        .service-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        */
-    </script>
+      };
+      updateCount();
+    });
+    countersStarted = true;
+  }
+
+  const impactSection = document.getElementById('impact');
+  const impactObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounters();
+        impactObserver.unobserve(impactSection);
+      }
+    });
+  }, {threshold: 0.5});
+
+  impactObserver.observe(impactSection);
+
+  function parallaxEffect() {
+    if(window.innerWidth < 768) return;
+
+    const scrollTop = window.pageYOffset;
+    const heroVideo = document.querySelector('header.hero video');
+    if(heroVideo) {
+      heroVideo.style.transform = `translateY(${scrollTop * 0.3}px) scale(1.05)`;
+    }
+  }
+  window.addEventListener('scroll', parallaxEffect);
+</script>
 
 </body>
 </html>
