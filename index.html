@@ -172,7 +172,8 @@
             background-color: #4b5563;
             cursor: not-allowed;
         }
-
+        
+        /* Bu kısım düzeltildi. info-box kaldırılıp hidden sınıfı eklendi. */
         .info-box {
             position: fixed;
             top: 50%;
@@ -185,7 +186,6 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.7);
             text-align: center;
             z-index: 100;
-            display: none;
         }
 
         .hidden {
@@ -218,7 +218,6 @@
             </div>
         </div>
 
-        <!-- Pillar Display -->
         <div class="pillar-display">
             <div class="pillar-card">
                 <h3 class="text-gray-300">Toplumsal Mutluluk <span id="sh-value" class="text-white font-bold float-right">50%</span></h3>
@@ -260,15 +259,12 @@
             </div>
         </div>
 
-        <!-- Project Cards -->
         <div class="project-panel">
             <h2 class="text-xl font-bold mb-4">Projeler</h2>
             <div id="projects-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Project cards will be generated here by JavaScript -->
-            </div>
+                </div>
         </div>
 
-        <!-- Message Log -->
         <div class="message-log">
             <h2 class="text-xl font-bold mb-2">Olay Günlüğü</h2>
             <div id="log-content"></div>
